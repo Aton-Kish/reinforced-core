@@ -3,7 +3,7 @@
   "id": "reinfcore",
   "version": "${version}",
   "name": "Reinforced Core",
-  "description": "A Library for reinforced storage mod series.",
+  "description": "A library for reinforced storage mod series.",
   "authors": [
     "Aton-Kish"
   ],

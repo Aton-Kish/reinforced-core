@@ -1,6 +1,6 @@
 # Reinforced Core
 
-A Library for reinforced storage mod series.
+A library for reinforced storage mod series.
 
 ## License
 
