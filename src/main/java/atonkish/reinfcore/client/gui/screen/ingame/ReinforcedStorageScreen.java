@@ -31,9 +31,8 @@ public class ReinforcedStorageScreen extends HandledScreen<ReinforcedStorageScre
         this.screenModel = ReinforcedStorageScreenModel.getScreenModel(handler.getMaterial(),
                 handler.getIsDoubleBlock());
 
-        int size = handler.getInventory().size();
-        this.cols = size <= 81 ? 9 : size / 9;
-        this.rows = size / this.cols;
+        this.cols = handler.getColumns();
+        this.rows = handler.getRows();
 
         this.backgroundWidth = 7 + (this.cols * 18) + 7;
         this.backgroundHeight = 17 + (this.rows * 18) + 14 + (3 * 18) + 4 + (1 * 18) + 7;

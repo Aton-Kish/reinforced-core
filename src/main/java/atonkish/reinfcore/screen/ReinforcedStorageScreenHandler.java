@@ -19,6 +19,8 @@ public class ReinforcedStorageScreenHandler extends ScreenHandler {
     private final ReinforcingMaterial material;
     private final boolean isDoubleBlock;
     private final boolean isShulkerBox;
+    private final int cols;
+    private final int rows;
 
     public ReinforcedStorageScreenHandler(ScreenHandlerType<?> type, ReinforcingMaterial material,
             boolean isDoubleBlock, boolean isShulkerBox, int syncId, PlayerInventory playerInventory,
@@ -30,7 +32,11 @@ public class ReinforcedStorageScreenHandler extends ScreenHandler {
         this.isShulkerBox = isShulkerBox;
         inventory.onOpen(playerInventory.player);
 
-        this.addSlots(material, isDoubleBlock, isShulkerBox, playerInventory, inventory);
+        int size = inventory.size();
+        this.cols = ReinforcedStorageScreenModel.calcContainerInventoryColumns(size);
+        this.rows = size / this.cols;
+
+        this.addSlots(playerInventory);
     }
 
     public static ReinforcedStorageScreenHandler createSingleBlockScreen(ReinforcingMaterial material, int syncId,
@@ -41,7 +47,7 @@ public class ReinforcedStorageScreenHandler extends ScreenHandler {
 
     public static ReinforcedStorageScreenHandler createSingleBlockScreen(ReinforcingMaterial material, int syncId,
             PlayerInventory playerInventory) {
-        int size = material.getSize();
+        int size = ReinforcedStorageScreenModel.calcContainerInventorySize(material, false);
         Inventory inventory = new SimpleInventory(size);
         return createSingleBlockScreen(material, syncId, playerInventory, inventory);
     }
@@ -54,7 +60,7 @@ public class ReinforcedStorageScreenHandler extends ScreenHandler {
 
     public static ReinforcedStorageScreenHandler createDoubleBlockScreen(ReinforcingMaterial material, int syncId,
             PlayerInventory playerInventory) {
-        int size = material.getSize() * 2;
+        int size = ReinforcedStorageScreenModel.calcContainerInventorySize(material, true);
         Inventory inventory = new SimpleInventory(size);
         return createDoubleBlockScreen(material, syncId, playerInventory, inventory);
     }
@@ -67,34 +73,34 @@ public class ReinforcedStorageScreenHandler extends ScreenHandler {
 
     public static ReinforcedStorageScreenHandler createShulkerBoxScreen(ReinforcingMaterial material, int syncId,
             PlayerInventory playerInventory) {
-        int size = material.getSize();
+        int size = ReinforcedStorageScreenModel.calcContainerInventorySize(material, false);
         Inventory inventory = new SimpleInventory(size);
         return createShulkerBoxScreen(material, syncId, playerInventory, inventory);
     }
 
-    private void addSlots(ReinforcingMaterial material, boolean isDoubleBlock, boolean isShulkerBox,
-            PlayerInventory playerInventory, Inventory inventory) {
-        ReinforcedStorageScreenModel screenModel = ReinforcedStorageScreenModel.getScreenModel(material, isDoubleBlock);
+    private void addSlots(PlayerInventory playerInventory) {
+        ReinforcedStorageScreenModel screenModel = ReinforcedStorageScreenModel.getScreenModel(this.material,
+                this.isDoubleBlock);
         Point2i containerInventoryPoint = screenModel.getContainerInventoryPoint();
         Point2i playerInventoryPoint = screenModel.getPlayerInventoryPoint();
 
-        int size = inventory.size();
-        int cols = size <= 81 ? 9 : size / 9;
+        int size = this.inventory.size();
+        int cols = this.cols;
 
         int slot;
 
-        if (isShulkerBox) {
+        if (this.isShulkerBox) {
             for (slot = 0; slot < size; ++slot) {
                 int col = slot % cols;
                 int row = (slot - col) / cols;
-                this.addSlot(new ShulkerBoxSlot(inventory, slot, containerInventoryPoint.getX() + col * 18 + 1,
+                this.addSlot(new ShulkerBoxSlot(this.inventory, slot, containerInventoryPoint.getX() + col * 18 + 1,
                         containerInventoryPoint.getY() + row * 18 + 1));
             }
         } else {
             for (slot = 0; slot < size; ++slot) {
                 int col = slot % cols;
                 int row = (slot - col) / cols;
-                this.addSlot(new Slot(inventory, slot, containerInventoryPoint.getX() + col * 18 + 1,
+                this.addSlot(new Slot(this.inventory, slot, containerInventoryPoint.getX() + col * 18 + 1,
                         containerInventoryPoint.getY() + row * 18 + 1));
             }
         }
@@ -160,5 +166,13 @@ public class ReinforcedStorageScreenHandler extends ScreenHandler {
 
     public boolean getIsShulkerBox() {
         return this.isShulkerBox;
+    }
+
+    public int getColumns() {
+        return this.cols;
+    }
+
+    public int getRows() {
+        return this.rows;
     }
 }
