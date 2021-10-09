@@ -25,19 +25,19 @@ public enum ReinforcedStorageScreenModel {
         this.playerInventoryPoint = playerInventoryPoint;
     }
 
-    private ReinforcedStorageScreenModel(ReinforcingMaterial material, boolean isDoubleBook) {
-        this(material, isDoubleBook, calcContainerInventoryPoint(material, isDoubleBook),
-                calcPlayerInventoryPoint(material, isDoubleBook));
+    private ReinforcedStorageScreenModel(ReinforcingMaterial material, boolean isDoubleBlock) {
+        this(material, isDoubleBlock, calcContainerInventoryPoint(material, isDoubleBlock),
+                calcPlayerInventoryPoint(material, isDoubleBlock));
     }
 
-    private static Point2i calcContainerInventoryPoint(ReinforcingMaterial material, boolean isDoubleBook) {
+    private static Point2i calcContainerInventoryPoint(ReinforcingMaterial material, boolean isDoubleBlock) {
         int x = 7;
         int y = 17;
         return new Point2i(x, y);
     }
 
-    private static Point2i calcPlayerInventoryPoint(ReinforcingMaterial material, boolean isDoubleBook) {
-        int size = isDoubleBook ? material.getSize() * 2 : material.getSize();
+    private static Point2i calcPlayerInventoryPoint(ReinforcingMaterial material, boolean isDoubleBlock) {
+        int size = isDoubleBlock ? material.getSize() * 2 : material.getSize();
         int cols = size <= 81 ? 9 : size / 9;
         int rows = size / cols;
 
