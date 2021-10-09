@@ -37,8 +37,8 @@ public enum ReinforcedStorageScreenModel {
     }
 
     private static Point2i calcPlayerInventoryPoint(ReinforcingMaterial material, boolean isDoubleBlock) {
-        int size = isDoubleBlock ? material.getSize() * 2 : material.getSize();
-        int cols = size <= 81 ? 9 : size / 9;
+        int size = calcContainerInventorySize(material, isDoubleBlock);
+        int cols = calcContainerInventoryColumns(size);
         int rows = size / cols;
 
         int x = 7 + (cols - 9) * 18 / 2;
@@ -71,5 +71,13 @@ public enum ReinforcedStorageScreenModel {
         }
 
         return (ReinforcedStorageScreenModel) null;
+    }
+
+    public static int calcContainerInventorySize(ReinforcingMaterial material, boolean isDoubleBlock) {
+        return isDoubleBlock ? material.getSize() * 2 : material.getSize();
+    }
+
+    public static int calcContainerInventoryColumns(int size) {
+        return size <= 81 ? 9 : size / 9;
     }
 }
