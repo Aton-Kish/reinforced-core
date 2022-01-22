@@ -1,10 +1,12 @@
 package atonkish.reinfcore;
 
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.loader.api.FabricLoader;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import atonkish.reinfcore.api.ReinforcedCoreModInitializer;
 import atonkish.reinfcore.item.ModItemGroup;
 
 public class ReinforcedCoreMod implements ModInitializer {
@@ -15,5 +17,10 @@ public class ReinforcedCoreMod implements ModInitializer {
 	public void onInitialize() {
 		// Items
 		ModItemGroup.init();
+
+		// entrypoint: "reinfcore"
+		FabricLoader.getInstance()
+				.getEntrypoints(MOD_ID, ReinforcedCoreModInitializer.class)
+				.forEach(ReinforcedCoreModInitializer::onInitializeReinforcedCore);
 	}
 }
