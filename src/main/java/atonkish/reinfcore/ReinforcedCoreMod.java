@@ -6,7 +6,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import atonkish.reinfcore.item.ModItemGroup;
-import atonkish.reinfcore.screen.ModScreenHandlerType;
 
 public class ReinforcedCoreMod implements ModInitializer {
 	public static final String MOD_ID = "reinfcore";
@@ -16,8 +15,5 @@ public class ReinforcedCoreMod implements ModInitializer {
 	public void onInitialize() {
 		// Items
 		ModItemGroup.init();
-
-		// Screens
-		ModScreenHandlerType.init();
 	}
 }
