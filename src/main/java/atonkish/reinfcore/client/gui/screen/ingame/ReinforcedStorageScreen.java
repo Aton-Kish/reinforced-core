@@ -14,6 +14,7 @@ import net.minecraft.util.Identifier;
 import atonkish.reinfcore.ReinforcedCoreMod;
 import atonkish.reinfcore.screen.ReinforcedStorageScreenHandler;
 import atonkish.reinfcore.util.ReinforcedStorageScreenModel;
+import atonkish.reinfcore.util.ReinforcedStorageScreenModels;
 import atonkish.reinfcore.util.math.Point2i;
 
 @Environment(EnvType.CLIENT)
@@ -28,8 +29,9 @@ public class ReinforcedStorageScreen extends HandledScreen<ReinforcedStorageScre
         super(handler, inventory, title);
         this.passEvents = false;
 
-        this.screenModel = ReinforcedStorageScreenModel.getScreenModel(handler.getMaterial(),
-                handler.getIsDoubleBlock());
+        this.screenModel = handler.getIsDoubleBlock()
+                ? ReinforcedStorageScreenModels.DOUBLE_MAP.get(handler.getMaterial())
+                : ReinforcedStorageScreenModels.SINGLE_MAP.get(handler.getMaterial());
 
         this.cols = handler.getColumns();
         this.rows = handler.getRows();

@@ -11,6 +11,7 @@ import net.minecraft.screen.slot.ShulkerBoxSlot;
 import net.minecraft.screen.slot.Slot;
 
 import atonkish.reinfcore.util.ReinforcedStorageScreenModel;
+import atonkish.reinfcore.util.ReinforcedStorageScreenModels;
 import atonkish.reinfcore.util.ReinforcingMaterial;
 import atonkish.reinfcore.util.math.Point2i;
 
@@ -79,8 +80,9 @@ public class ReinforcedStorageScreenHandler extends ScreenHandler {
     }
 
     private void addSlots(PlayerInventory playerInventory) {
-        ReinforcedStorageScreenModel screenModel = ReinforcedStorageScreenModel.getScreenModel(this.material,
-                this.isDoubleBlock);
+        ReinforcedStorageScreenModel screenModel = this.isDoubleBlock
+                ? ReinforcedStorageScreenModels.DOUBLE_MAP.get(this.material)
+                : ReinforcedStorageScreenModels.SINGLE_MAP.get(this.material);
         Point2i containerInventoryPoint = screenModel.getContainerInventoryPoint();
         Point2i playerInventoryPoint = screenModel.getPlayerInventoryPoint();
 
