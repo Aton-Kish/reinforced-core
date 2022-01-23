@@ -15,28 +15,28 @@ public class ReinforcedCoreRegistry {
         return ReinforcingMaterials.register(name, size, ingredient);
     }
 
-    public static ReinforcedStorageScreenModel registerSingleBlockScreenModel(
+    public static ReinforcedStorageScreenModel registerMaterialSingleBlockScreenModel(
             ReinforcingMaterial material) {
-        return ReinforcedStorageScreenModels.registerSingleBlockScreenModel(material);
+        return ReinforcedStorageScreenModels.registerMaterialSingleBlock(material);
     }
 
-    public static ReinforcedStorageScreenModel registerDoubleBlockScreenModel(
+    public static ReinforcedStorageScreenModel registerMaterialDoubleBlockScreenModel(
             ReinforcingMaterial material) {
-        return ReinforcedStorageScreenModels.registerDoubleBlockScreenModel(material);
+        return ReinforcedStorageScreenModels.registerMaterialDoubleBlock(material);
     }
 
-    public static ScreenHandlerType<ReinforcedStorageScreenHandler> registerSingleBlockScreenHandler(
+    public static ScreenHandlerType<ReinforcedStorageScreenHandler> registerMaterialSingleBlockScreenHandler(
             ReinforcingMaterial material) {
-        return ModScreenHandlerType.registerSingleBlockScreenHandler(material);
+        return ModScreenHandlerType.registerMaterialSingleBlock(material);
     }
 
-    public static ScreenHandlerType<ReinforcedStorageScreenHandler> registerDoubleBlockScreenHandler(
+    public static ScreenHandlerType<ReinforcedStorageScreenHandler> registerMaterialDoubleBlockScreenHandler(
             ReinforcingMaterial material) {
-        return ModScreenHandlerType.registerDoubleBlockScreenHandler(material);
+        return ModScreenHandlerType.registerMaterialDoubleBlock(material);
     }
 
-    public static ScreenHandlerType<ReinforcedStorageScreenHandler> registerShulkerBoxScreenHandler(
+    public static ScreenHandlerType<ReinforcedStorageScreenHandler> registerMaterialShulkerBoxScreenHandler(
             ReinforcingMaterial material) {
-        return ModScreenHandlerType.registerShulkerBoxScreenHandler(material);
+        return ModScreenHandlerType.registerMaterialShulkerBox(material);
     }
 }

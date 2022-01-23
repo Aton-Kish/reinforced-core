@@ -10,17 +10,17 @@ import atonkish.reinfcore.util.ReinforcingMaterial;
 
 @Environment(EnvType.CLIENT)
 public class ReinforcedCoreClientRegistry {
-    public static void registerSingleBlockScreen(ReinforcingMaterial material) {
+    public static void registerMaterialSingleBlockScreen(ReinforcingMaterial material) {
         ScreenRegistry.register(ModScreenHandlerType.REINFORCED_SINGLE_BLOCK_MAP.get(material),
                 ReinforcedStorageScreen::new);
     }
 
-    public static void registerDoubleBlockScreen(ReinforcingMaterial material) {
+    public static void registerMaterialDoubleBlockScreen(ReinforcingMaterial material) {
         ScreenRegistry.register(ModScreenHandlerType.REINFORCED_DOUBLE_BLOCK_MAP.get(material),
                 ReinforcedStorageScreen::new);
     }
 
-    public static void registerShulkerBoxScreen(ReinforcingMaterial material) {
+    public static void registerMaterialShulkerBoxScreen(ReinforcingMaterial material) {
         ScreenRegistry.register(ModScreenHandlerType.REINFORCED_SHULKER_BOX_MAP.get(material),
                 ReinforcedStorageScreen::new);
     }
