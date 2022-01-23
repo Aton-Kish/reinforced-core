@@ -1,5 +1,6 @@
 package atonkish.reinfcore.api;
 
+import net.minecraft.item.Item;
 import net.minecraft.screen.ScreenHandlerType;
 
 import atonkish.reinfcore.screen.ModScreenHandlerType;
@@ -10,8 +11,8 @@ import atonkish.reinfcore.util.ReinforcingMaterial;
 import atonkish.reinfcore.util.ReinforcingMaterials;
 
 public class ReinforcedCoreRegistry {
-    public static ReinforcingMaterial registerReinforcingMaterial(ReinforcingMaterial material) {
-        return ReinforcingMaterials.register(material);
+    public static ReinforcingMaterial registerReinforcingMaterial(String name, int size, Item ingredient) {
+        return ReinforcingMaterials.register(name, size, ingredient);
     }
 
     public static ReinforcedStorageScreenModel registerSingleBlockScreenModel(
