@@ -13,29 +13,31 @@ import atonkish.reinfcore.util.ReinforcingMaterial;
 
 @Environment(EnvType.CLIENT)
 public class ReinforcedCoreClientRegistry {
-    public static Set<ReinforcingMaterial> SCREEN_SET = new HashSet<>();
+    public static Set<ReinforcingMaterial> SINGLE_BLOCK_SET = new HashSet<>();
+    public static Set<ReinforcingMaterial> DOUBLE_BLOCK_SET = new HashSet<>();
+    public static Set<ReinforcingMaterial> SHULKER_BOX_SET = new HashSet<>();
 
     public static void registerMaterialSingleBlockScreen(ReinforcingMaterial material) {
-        if (!SCREEN_SET.contains(material)) {
+        if (!SINGLE_BLOCK_SET.contains(material)) {
             ScreenRegistry.register(ModScreenHandlerType.REINFORCED_SINGLE_BLOCK_MAP.get(material),
                     ReinforcedStorageScreen::new);
-            SCREEN_SET.add(material);
+            SINGLE_BLOCK_SET.add(material);
         }
     }
 
     public static void registerMaterialDoubleBlockScreen(ReinforcingMaterial material) {
-        if (!SCREEN_SET.contains(material)) {
+        if (!DOUBLE_BLOCK_SET.contains(material)) {
             ScreenRegistry.register(ModScreenHandlerType.REINFORCED_DOUBLE_BLOCK_MAP.get(material),
                     ReinforcedStorageScreen::new);
-            SCREEN_SET.add(material);
+            DOUBLE_BLOCK_SET.add(material);
         }
     }
 
     public static void registerMaterialShulkerBoxScreen(ReinforcingMaterial material) {
-        if (!SCREEN_SET.contains(material)) {
+        if (!SHULKER_BOX_SET.contains(material)) {
             ScreenRegistry.register(ModScreenHandlerType.REINFORCED_SHULKER_BOX_MAP.get(material),
                     ReinforcedStorageScreen::new);
-            SCREEN_SET.add(material);
+            SHULKER_BOX_SET.add(material);
         }
     }
 }
