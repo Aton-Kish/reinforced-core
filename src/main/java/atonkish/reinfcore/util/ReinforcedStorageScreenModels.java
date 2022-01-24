@@ -1,24 +1,27 @@
 package atonkish.reinfcore.util;
 
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class ReinforcedStorageScreenModels {
-    public static final LinkedHashMap<ReinforcingMaterial, ReinforcedStorageScreenModel> SINGLE_MAP = new LinkedHashMap<>();
-    public static final LinkedHashMap<ReinforcingMaterial, ReinforcedStorageScreenModel> DOUBLE_MAP = new LinkedHashMap<>();
+    public static final Map<ReinforcingMaterial, ReinforcedStorageScreenModel> SINGLE_MAP = new LinkedHashMap<>();
+    public static final Map<ReinforcingMaterial, ReinforcedStorageScreenModel> DOUBLE_MAP = new LinkedHashMap<>();
 
     public static ReinforcedStorageScreenModel registerMaterialSingleBlock(ReinforcingMaterial material) {
-        ReinforcedStorageScreenModel screenModel = new ReinforcedStorageScreenModel(material, false);
+        if (!SINGLE_MAP.containsKey(material)) {
+            ReinforcedStorageScreenModel screenModel = new ReinforcedStorageScreenModel(material, false);
+            SINGLE_MAP.put(material, screenModel);
+        }
 
-        SINGLE_MAP.put(material, screenModel);
-
-        return screenModel;
+        return SINGLE_MAP.get(material);
     }
 
     public static ReinforcedStorageScreenModel registerMaterialDoubleBlock(ReinforcingMaterial material) {
-        ReinforcedStorageScreenModel screenModel = new ReinforcedStorageScreenModel(material, true);
+        if (!DOUBLE_MAP.containsKey(material)) {
+            ReinforcedStorageScreenModel screenModel = new ReinforcedStorageScreenModel(material, true);
+            DOUBLE_MAP.put(material, screenModel);
+        }
 
-        DOUBLE_MAP.put(material, screenModel);
-
-        return screenModel;
+        return DOUBLE_MAP.get(material);
     }
 }

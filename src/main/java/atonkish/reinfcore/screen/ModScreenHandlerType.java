@@ -1,6 +1,7 @@
 package atonkish.reinfcore.screen;
 
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry.SimpleClientHandlerFactory;
@@ -12,44 +13,47 @@ import atonkish.reinfcore.ReinforcedCoreMod;
 import atonkish.reinfcore.util.ReinforcingMaterial;
 
 public class ModScreenHandlerType {
-    public static final LinkedHashMap<ReinforcingMaterial, ScreenHandlerType<ReinforcedStorageScreenHandler>> REINFORCED_SINGLE_BLOCK_MAP = new LinkedHashMap<>();
-    public static final LinkedHashMap<ReinforcingMaterial, ScreenHandlerType<ReinforcedStorageScreenHandler>> REINFORCED_DOUBLE_BLOCK_MAP = new LinkedHashMap<>();
-    public static final LinkedHashMap<ReinforcingMaterial, ScreenHandlerType<ReinforcedStorageScreenHandler>> REINFORCED_SHULKER_BOX_MAP = new LinkedHashMap<>();
+    public static final Map<ReinforcingMaterial, ScreenHandlerType<ReinforcedStorageScreenHandler>> REINFORCED_SINGLE_BLOCK_MAP = new LinkedHashMap<>();
+    public static final Map<ReinforcingMaterial, ScreenHandlerType<ReinforcedStorageScreenHandler>> REINFORCED_DOUBLE_BLOCK_MAP = new LinkedHashMap<>();
+    public static final Map<ReinforcingMaterial, ScreenHandlerType<ReinforcedStorageScreenHandler>> REINFORCED_SHULKER_BOX_MAP = new LinkedHashMap<>();
 
     public static ScreenHandlerType<ReinforcedStorageScreenHandler> registerMaterialSingleBlock(
             ReinforcingMaterial material) {
-        String id = "single_" + material.getName() + "_block";
-        SimpleClientHandlerFactory<ReinforcedStorageScreenHandler> factory = createSingleBlockScreenHandlerFactory(
-                material);
-        ScreenHandlerType<ReinforcedStorageScreenHandler> screenHandlerType = register(id, factory);
+        if (!REINFORCED_SINGLE_BLOCK_MAP.containsKey(material)) {
+            String id = "single_" + material.getName() + "_block";
+            SimpleClientHandlerFactory<ReinforcedStorageScreenHandler> factory = createSingleBlockScreenHandlerFactory(
+                    material);
+            ScreenHandlerType<ReinforcedStorageScreenHandler> screenHandlerType = register(id, factory);
+            REINFORCED_SINGLE_BLOCK_MAP.put(material, screenHandlerType);
+        }
 
-        REINFORCED_SINGLE_BLOCK_MAP.put(material, screenHandlerType);
-
-        return screenHandlerType;
+        return REINFORCED_SINGLE_BLOCK_MAP.get(material);
     }
 
     public static ScreenHandlerType<ReinforcedStorageScreenHandler> registerMaterialDoubleBlock(
             ReinforcingMaterial material) {
-        String id = "double_" + material.getName() + "_block";
-        SimpleClientHandlerFactory<ReinforcedStorageScreenHandler> factory = createDoubleBlockScreenHandlerFactory(
-                material);
-        ScreenHandlerType<ReinforcedStorageScreenHandler> screenHandlerType = register(id, factory);
+        if (!REINFORCED_DOUBLE_BLOCK_MAP.containsKey(material)) {
+            String id = "double_" + material.getName() + "_block";
+            SimpleClientHandlerFactory<ReinforcedStorageScreenHandler> factory = createDoubleBlockScreenHandlerFactory(
+                    material);
+            ScreenHandlerType<ReinforcedStorageScreenHandler> screenHandlerType = register(id, factory);
+            REINFORCED_DOUBLE_BLOCK_MAP.put(material, screenHandlerType);
+        }
 
-        REINFORCED_DOUBLE_BLOCK_MAP.put(material, screenHandlerType);
-
-        return screenHandlerType;
+        return REINFORCED_DOUBLE_BLOCK_MAP.get(material);
     }
 
     public static ScreenHandlerType<ReinforcedStorageScreenHandler> registerMaterialShulkerBox(
             ReinforcingMaterial material) {
-        String id = material.getName() + "_shulker_box";
-        SimpleClientHandlerFactory<ReinforcedStorageScreenHandler> factory = createShulkerBoxScreenHandlerFactory(
-                material);
-        ScreenHandlerType<ReinforcedStorageScreenHandler> screenHandlerType = register(id, factory);
+        if (!REINFORCED_SHULKER_BOX_MAP.containsKey(material)) {
+            String id = material.getName() + "_shulker_box";
+            SimpleClientHandlerFactory<ReinforcedStorageScreenHandler> factory = createShulkerBoxScreenHandlerFactory(
+                    material);
+            ScreenHandlerType<ReinforcedStorageScreenHandler> screenHandlerType = register(id, factory);
+            REINFORCED_SHULKER_BOX_MAP.put(material, screenHandlerType);
+        }
 
-        REINFORCED_SHULKER_BOX_MAP.put(material, screenHandlerType);
-
-        return screenHandlerType;
+        return REINFORCED_SHULKER_BOX_MAP.get(material);
     }
 
     private static ScreenHandlerType<ReinforcedStorageScreenHandler> register(String id,
