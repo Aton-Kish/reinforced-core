@@ -1,23 +1,14 @@
 package atonkish.reinfcore.util;
 
-import org.jetbrains.annotations.Nullable;
-
 import atonkish.reinfcore.util.math.Point2i;
 
-public enum ReinforcedStorageScreenModel {
-    COPPER_SCREEN(ReinforcingMaterial.COPPER, false), COPPER_DOUBLE_SCREEN(ReinforcingMaterial.COPPER, true),
-    IRON_SCREEN(ReinforcingMaterial.IRON, false), IRON_DOUBLE_SCREEN(ReinforcingMaterial.IRON, true),
-    GOLD_SCREEN(ReinforcingMaterial.GOLD, false), GOLD_DOUBLE_SCREEN(ReinforcingMaterial.GOLD, true),
-    DIAMOND_SCREEN(ReinforcingMaterial.DIAMOND, false), DIAMOND_DOUBLE_SCREEN(ReinforcingMaterial.DIAMOND, true),
-    NETHERITE_SCREEN(ReinforcingMaterial.NETHERITE, false),
-    NETHERITE_DOUBLE_SCREEN(ReinforcingMaterial.NETHERITE, true);
-
+public class ReinforcedStorageScreenModel {
     private final ReinforcingMaterial material;
     private final boolean isDoubleBlock;
     private final Point2i containerInventoryPoint;
     private final Point2i playerInventoryPoint;
 
-    private ReinforcedStorageScreenModel(ReinforcingMaterial material, boolean isDoubleBlock,
+    public ReinforcedStorageScreenModel(ReinforcingMaterial material, boolean isDoubleBlock,
             Point2i containerInventoryPoint, Point2i playerInventoryPoint) {
         this.material = material;
         this.isDoubleBlock = isDoubleBlock;
@@ -25,7 +16,7 @@ public enum ReinforcedStorageScreenModel {
         this.playerInventoryPoint = playerInventoryPoint;
     }
 
-    private ReinforcedStorageScreenModel(ReinforcingMaterial material, boolean isDoubleBlock) {
+    public ReinforcedStorageScreenModel(ReinforcingMaterial material, boolean isDoubleBlock) {
         this(material, isDoubleBlock, calcContainerInventoryPoint(material, isDoubleBlock),
                 calcPlayerInventoryPoint(material, isDoubleBlock));
     }
@@ -60,17 +51,6 @@ public enum ReinforcedStorageScreenModel {
 
     public Point2i getPlayerInventoryPoint() {
         return this.playerInventoryPoint;
-    }
-
-    @Nullable
-    public static ReinforcedStorageScreenModel getScreenModel(ReinforcingMaterial material, boolean isDoubleBlock) {
-        for (ReinforcedStorageScreenModel screenModel : values()) {
-            if (screenModel.material.equals(material) && screenModel.isDoubleBlock == isDoubleBlock) {
-                return screenModel;
-            }
-        }
-
-        return (ReinforcedStorageScreenModel) null;
     }
 
     public static int calcContainerInventorySize(ReinforcingMaterial material, boolean isDoubleBlock) {
