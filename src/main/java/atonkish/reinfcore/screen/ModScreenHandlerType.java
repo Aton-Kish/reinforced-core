@@ -3,11 +3,10 @@ package atonkish.reinfcore.screen;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
-import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry.SimpleClientHandlerFactory;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 
 import atonkish.reinfcore.ReinforcedCoreMod;
 import atonkish.reinfcore.util.ReinforcingMaterial;
@@ -21,7 +20,7 @@ public class ModScreenHandlerType {
             ReinforcingMaterial material) {
         if (!REINFORCED_SINGLE_BLOCK_MAP.containsKey(material)) {
             String id = "single_" + material.getName() + "_block";
-            SimpleClientHandlerFactory<ReinforcedStorageScreenHandler> factory = createSingleBlockScreenHandlerFactory(
+            ScreenHandlerType.Factory<ReinforcedStorageScreenHandler> factory = createSingleBlockScreenHandlerFactory(
                     material);
             ScreenHandlerType<ReinforcedStorageScreenHandler> screenHandlerType = register(id, factory);
             REINFORCED_SINGLE_BLOCK_MAP.put(material, screenHandlerType);
@@ -34,7 +33,7 @@ public class ModScreenHandlerType {
             ReinforcingMaterial material) {
         if (!REINFORCED_DOUBLE_BLOCK_MAP.containsKey(material)) {
             String id = "double_" + material.getName() + "_block";
-            SimpleClientHandlerFactory<ReinforcedStorageScreenHandler> factory = createDoubleBlockScreenHandlerFactory(
+            ScreenHandlerType.Factory<ReinforcedStorageScreenHandler> factory = createDoubleBlockScreenHandlerFactory(
                     material);
             ScreenHandlerType<ReinforcedStorageScreenHandler> screenHandlerType = register(id, factory);
             REINFORCED_DOUBLE_BLOCK_MAP.put(material, screenHandlerType);
@@ -47,7 +46,7 @@ public class ModScreenHandlerType {
             ReinforcingMaterial material) {
         if (!REINFORCED_SHULKER_BOX_MAP.containsKey(material)) {
             String id = material.getName() + "_shulker_box";
-            SimpleClientHandlerFactory<ReinforcedStorageScreenHandler> factory = createShulkerBoxScreenHandlerFactory(
+            ScreenHandlerType.Factory<ReinforcedStorageScreenHandler> factory = createShulkerBoxScreenHandlerFactory(
                     material);
             ScreenHandlerType<ReinforcedStorageScreenHandler> screenHandlerType = register(id, factory);
             REINFORCED_SHULKER_BOX_MAP.put(material, screenHandlerType);
@@ -57,24 +56,26 @@ public class ModScreenHandlerType {
     }
 
     private static ScreenHandlerType<ReinforcedStorageScreenHandler> register(String id,
-            SimpleClientHandlerFactory<ReinforcedStorageScreenHandler> factory) {
+            ScreenHandlerType.Factory<ReinforcedStorageScreenHandler> factory) {
         Identifier identifier = new Identifier(ReinforcedCoreMod.MOD_ID, id);
-        return ScreenHandlerRegistry.registerSimple(identifier, factory);
+        ScreenHandlerType<ReinforcedStorageScreenHandler> type = new ScreenHandlerType<ReinforcedStorageScreenHandler>(
+                factory);
+        return Registry.register(Registry.SCREEN_HANDLER, identifier, type);
     }
 
-    private static SimpleClientHandlerFactory<ReinforcedStorageScreenHandler> createSingleBlockScreenHandlerFactory(
+    private static ScreenHandlerType.Factory<ReinforcedStorageScreenHandler> createSingleBlockScreenHandlerFactory(
             ReinforcingMaterial material) {
         return (int syncId, PlayerInventory playerInventory) -> ReinforcedStorageScreenHandler
                 .createShulkerBoxScreen(material, syncId, playerInventory);
     }
 
-    private static SimpleClientHandlerFactory<ReinforcedStorageScreenHandler> createDoubleBlockScreenHandlerFactory(
+    private static ScreenHandlerType.Factory<ReinforcedStorageScreenHandler> createDoubleBlockScreenHandlerFactory(
             ReinforcingMaterial material) {
         return (int syncId, PlayerInventory playerInventory) -> ReinforcedStorageScreenHandler
                 .createDoubleBlockScreen(material, syncId, playerInventory);
     }
 
-    private static SimpleClientHandlerFactory<ReinforcedStorageScreenHandler> createShulkerBoxScreenHandlerFactory(
+    private static ScreenHandlerType.Factory<ReinforcedStorageScreenHandler> createShulkerBoxScreenHandlerFactory(
             ReinforcingMaterial material) {
         return (int syncId, PlayerInventory playerInventory) -> ReinforcedStorageScreenHandler
                 .createShulkerBoxScreen(material, syncId, playerInventory);
