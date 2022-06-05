@@ -5,7 +5,7 @@ import java.util.Set;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.client.screenhandler.v1.ScreenRegistry;
+import net.minecraft.client.gui.screen.ingame.HandledScreens;
 
 import atonkish.reinfcore.client.gui.screen.ingame.ReinforcedStorageScreen;
 import atonkish.reinfcore.screen.ModScreenHandlerType;
@@ -19,7 +19,7 @@ public class ReinforcedCoreClientRegistry {
 
     public static void registerMaterialSingleBlockScreen(ReinforcingMaterial material) {
         if (!SINGLE_BLOCK_SET.contains(material)) {
-            ScreenRegistry.register(ModScreenHandlerType.REINFORCED_SINGLE_BLOCK_MAP.get(material),
+            HandledScreens.register(ModScreenHandlerType.REINFORCED_SINGLE_BLOCK_MAP.get(material),
                     ReinforcedStorageScreen::new);
             SINGLE_BLOCK_SET.add(material);
         }
@@ -27,7 +27,7 @@ public class ReinforcedCoreClientRegistry {
 
     public static void registerMaterialDoubleBlockScreen(ReinforcingMaterial material) {
         if (!DOUBLE_BLOCK_SET.contains(material)) {
-            ScreenRegistry.register(ModScreenHandlerType.REINFORCED_DOUBLE_BLOCK_MAP.get(material),
+            HandledScreens.register(ModScreenHandlerType.REINFORCED_DOUBLE_BLOCK_MAP.get(material),
                     ReinforcedStorageScreen::new);
             DOUBLE_BLOCK_SET.add(material);
         }
@@ -35,7 +35,7 @@ public class ReinforcedCoreClientRegistry {
 
     public static void registerMaterialShulkerBoxScreen(ReinforcingMaterial material) {
         if (!SHULKER_BOX_SET.contains(material)) {
-            ScreenRegistry.register(ModScreenHandlerType.REINFORCED_SHULKER_BOX_MAP.get(material),
+            HandledScreens.register(ModScreenHandlerType.REINFORCED_SHULKER_BOX_MAP.get(material),
                     ReinforcedStorageScreen::new);
             SHULKER_BOX_SET.add(material);
         }
