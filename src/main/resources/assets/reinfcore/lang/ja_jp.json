@@ -1,3 +1,6 @@
 {
-  "itemGroup.reinfcore.reinforced_storage": "強化ストレージ"
+  "itemGroup.reinfcore.reinforced_storage": "Reinforced Storage",
+
+  "text.autoconfig.reinfcore.title": "Reinforced Core",
+  "text.autoconfig.reinfcore.option.scrollScreen": "スクロールスクリーン"
 }
