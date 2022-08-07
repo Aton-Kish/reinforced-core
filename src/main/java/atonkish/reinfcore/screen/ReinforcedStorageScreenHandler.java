@@ -107,8 +107,8 @@ public class ReinforcedStorageScreenHandler extends ScreenHandler {
             if (ReinforcedCoreMod.CONFIG.scrollType == ReinforcedStorageScreenType.SCROLL
                     && row >= SCROLL_SCREEN_ROWS) {
                 // HACK: slot position far away outside if scroll screen type
-                x = Integer.MAX_VALUE;
-                y = Integer.MAX_VALUE;
+                x = Integer.MIN_VALUE;
+                y = Integer.MIN_VALUE;
             }
 
             Slot slot = this.isShulkerBox
@@ -166,8 +166,8 @@ public class ReinforcedStorageScreenHandler extends ScreenHandler {
 
             if (row < srow || row >= srow + SCROLL_SCREEN_ROWS) {
                 // HACK: slot position far away outside if scroll screen type
-                x = Integer.MAX_VALUE;
-                y = Integer.MAX_VALUE;
+                x = Integer.MIN_VALUE;
+                y = Integer.MIN_VALUE;
             }
 
             Slot slot = this.getSlot(index);
