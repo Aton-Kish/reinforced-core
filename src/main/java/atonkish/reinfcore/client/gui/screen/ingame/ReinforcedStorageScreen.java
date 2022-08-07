@@ -99,12 +99,14 @@ public class ReinforcedStorageScreen extends HandledScreen<ReinforcedStorageScre
                 + GAP_BETWEEN_PLAYER_INVENTORY_STORAGE_AND_PLAYER_INVENTORY_HOTBAR + 1 * SLOT_SIZE + PADDING_BOTTOM);
     }
 
+    @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         this.renderBackground(matrices);
         super.render(matrices, mouseX, mouseY, delta);
         this.drawMouseoverTooltip(matrices, mouseX, mouseY);
     }
 
+    @Override
     protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);

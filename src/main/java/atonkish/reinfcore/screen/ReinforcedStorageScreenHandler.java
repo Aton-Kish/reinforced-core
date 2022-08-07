@@ -140,6 +140,7 @@ public class ReinforcedStorageScreenHandler extends ScreenHandler {
         }
     }
 
+    @Override
     public boolean canUse(PlayerEntity player) {
         return this.inventory.canPlayerUse(player);
     }
@@ -181,6 +182,7 @@ public class ReinforcedStorageScreenHandler extends ScreenHandler {
                 && this.inventory.size() > SCROLL_SCREEN_COLS * SCROLL_SCREEN_ROWS;
     }
 
+    @Override
     public ItemStack transferSlot(PlayerEntity player, int index) {
         ItemStack itemStack = ItemStack.EMPTY;
         Slot slot = (Slot) this.slots.get(index);
@@ -205,6 +207,7 @@ public class ReinforcedStorageScreenHandler extends ScreenHandler {
         return itemStack;
     }
 
+    @Override
     public void close(PlayerEntity player) {
         super.close(player);
         this.inventory.onClose(player);
