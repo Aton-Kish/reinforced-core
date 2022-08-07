@@ -10,6 +10,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.MathHelper;
 
 import atonkish.reinfcore.screen.ReinforcedStorageScreenHandler;
 import atonkish.reinfcore.util.ReinforcedStorageScreenModel;
@@ -26,8 +27,11 @@ public class ReinforcedStorageScreen extends HandledScreen<ReinforcedStorageScre
     private static final int PADDING_RIGHT = 7;
     private static final int GAP_BETWEEN_CONTAINER_INVENTORY_AND_PLAYER_INVENTORY = 14;
     private static final int GAP_BETWEEN_PLAYER_INVENTORY_STORAGE_AND_PLAYER_INVENTORY_HOTBAR = 4;
+    private static final int GAP_BETWEEN_CONTAINER_INVENTORY_AND_SCROLL_BAR = 4;
 
     private static final int SINGLE_SCREEN_DEFAULT_COLS = 9;
+    private static final int SCROLL_SCREEN_COLS = 9;
+    private static final int SCROLL_SCREEN_ROWS = 5;
 
     private static final Identifier BACKGROUND_TEXTURE = new Identifier("textures/gui/demo_background.png");
     private static final int BACKGROUND_CORNER = 4;
@@ -46,13 +50,33 @@ public class ReinforcedStorageScreen extends HandledScreen<ReinforcedStorageScre
     private static final int PLAYER_INVENTORY_WIDTH = 162;
     private static final int PLAYER_INVENTORY_HEIGHT = 76;
 
+    private static final Identifier SCROLLBAR_BACKGROUND_TEXTURE = new Identifier(
+            "textures/gui/container/creative_inventory/tab_items.png");
+    private static final int SCROLLBAR_BACKGROUND_X = 174;
+    private static final int SCROLLBAR_BACKGROUND_Y = 17;
+    private static final int SCROLLBAR_BACKGROUND_WIDTH = 14;
+    private static final int SCROLLBAR_BACKGROUND_HEIGHT = 112;
+
+    private static final Identifier SCROLLBAR_TEXTURE = new Identifier(
+            "textures/gui/container/creative_inventory/tabs.png");
+    private static final int SCROLLBAR_X = 232;
+    private static final int SCROLLBAR_Y = 0;
+    private static final int SCROLLBAR_WIDTH = 12;
+    private static final int SCROLLBAR_HEIGHT = 15;
+
     private final ReinforcedStorageScreenModel screenModel;
     private final int cols;
     private final int rows;
 
+    private float scrollPosition;
+    private boolean scrolling;
+
     public ReinforcedStorageScreen(ReinforcedStorageScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
         this.passEvents = false;
+
+        this.scrollPosition = 0.0f;
+        this.scrolling = false;
 
         this.screenModel = handler.getIsDoubleBlock()
                 ? ReinforcedStorageScreenModels.DOUBLE_MAP.get(handler.getMaterial())
@@ -62,6 +86,9 @@ public class ReinforcedStorageScreen extends HandledScreen<ReinforcedStorageScre
         this.rows = handler.getRows();
 
         this.backgroundWidth = PADDING_LEFT + this.cols * SLOT_SIZE + PADDING_RIGHT;
+        if (this.hasScrollbar()) {
+            this.backgroundWidth += GAP_BETWEEN_CONTAINER_INVENTORY_AND_SCROLL_BAR + SCROLLBAR_BACKGROUND_WIDTH;
+        }
         this.backgroundHeight = PADDING_TOP + this.rows * SLOT_SIZE
                 + GAP_BETWEEN_CONTAINER_INVENTORY_AND_PLAYER_INVENTORY + 3 * SLOT_SIZE
                 + GAP_BETWEEN_PLAYER_INVENTORY_STORAGE_AND_PLAYER_INVENTORY_HOTBAR + 1 * SLOT_SIZE + PADDING_BOTTOM;
@@ -84,6 +111,9 @@ public class ReinforcedStorageScreen extends HandledScreen<ReinforcedStorageScre
 
         this.drawBackgroundTexture(matrices);
         this.drawSlotTexture(matrices);
+        if (this.hasScrollbar()) {
+            this.drawScrollbarTexture(matrices);
+        }
     }
 
     private void drawBackgroundTexture(MatrixStack matrices) {
@@ -329,5 +359,128 @@ public class ReinforcedStorageScreen extends HandledScreen<ReinforcedStorageScre
                 PLAYER_INVENTORY_Y,
                 PLAYER_INVENTORY_WIDTH,
                 PLAYER_INVENTORY_HEIGHT);
+    }
+
+    private void drawScrollbarTexture(MatrixStack matrices) {
+        //
+        // backgraound
+        //
+
+        RenderSystem.setShaderTexture(0, SCROLLBAR_BACKGROUND_TEXTURE);
+
+        int vnum = (this.rows * SLOT_SIZE - 2) / (SCROLLBAR_BACKGROUND_HEIGHT - 2);
+        int vrem = (this.rows * SLOT_SIZE - 2) % (SCROLLBAR_BACKGROUND_HEIGHT - 2);
+
+        this.drawTexture(matrices,
+                this.x + this.backgroundWidth - (SCROLLBAR_BACKGROUND_WIDTH + PADDING_RIGHT),
+                this.y + PADDING_TOP,
+                SCROLLBAR_BACKGROUND_X,
+                SCROLLBAR_BACKGROUND_Y,
+                SCROLLBAR_BACKGROUND_WIDTH,
+                1);
+
+        for (int vcnt = 0; vcnt < vnum; ++vcnt) {
+            this.drawTexture(matrices,
+                    this.x + this.backgroundWidth - (SCROLLBAR_BACKGROUND_WIDTH + PADDING_RIGHT),
+                    this.y + PADDING_TOP + 1 + vcnt * (SCROLLBAR_BACKGROUND_HEIGHT - 2),
+                    SCROLLBAR_BACKGROUND_X,
+                    SCROLLBAR_BACKGROUND_Y + 1,
+                    SCROLLBAR_BACKGROUND_WIDTH,
+                    SCROLLBAR_BACKGROUND_HEIGHT - 2);
+        }
+
+        this.drawTexture(matrices,
+                this.x + this.backgroundWidth - (SCROLLBAR_BACKGROUND_WIDTH + PADDING_RIGHT),
+                this.y + PADDING_TOP + 1 + vnum * (SCROLLBAR_BACKGROUND_HEIGHT - 2),
+                SCROLLBAR_BACKGROUND_X,
+                SCROLLBAR_BACKGROUND_Y + 1,
+                SCROLLBAR_BACKGROUND_WIDTH,
+                vrem);
+
+        this.drawTexture(matrices,
+                this.x + this.backgroundWidth - (SCROLLBAR_BACKGROUND_WIDTH + PADDING_RIGHT),
+                this.y + PADDING_TOP + this.rows * SLOT_SIZE - 1,
+                SCROLLBAR_BACKGROUND_X,
+                SCROLLBAR_BACKGROUND_Y + SCROLLBAR_BACKGROUND_HEIGHT - 1,
+                SCROLLBAR_BACKGROUND_WIDTH,
+                1);
+
+        //
+        // button
+        //
+
+        RenderSystem.setShaderTexture(0, SCROLLBAR_TEXTURE);
+
+        int ymin = this.y + PADDING_TOP + 1;
+        int ymax = ymin + this.rows * SLOT_SIZE;
+
+        this.drawTexture(matrices,
+                this.x + PADDING_LEFT + this.cols * SLOT_SIZE + GAP_BETWEEN_CONTAINER_INVENTORY_AND_SCROLL_BAR + 1,
+                ymin + (int) ((float) (ymax - ymin - (SCROLLBAR_HEIGHT + 2)) * this.scrollPosition),
+                SCROLLBAR_X + (this.hasScrollbar() ? 0 : SCROLLBAR_WIDTH),
+                SCROLLBAR_Y,
+                SCROLLBAR_WIDTH,
+                SCROLLBAR_HEIGHT);
+    }
+
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        if (this.hasScrollbar() && button == 0) {
+            if (this.isClickInScrollbar(mouseX, mouseY)) {
+                this.scrolling = this.hasScrollbar();
+                return true;
+            }
+        }
+
+        return super.mouseClicked(mouseX, mouseY, button);
+    }
+
+    @Override
+    public boolean mouseReleased(double mouseX, double mouseY, int button) {
+        if (this.hasScrollbar() && button == 0) {
+            this.scrolling = false;
+        }
+
+        return super.mouseReleased(mouseX, mouseY, button);
+    }
+
+    private boolean hasScrollbar() {
+        return this.handler.shouldShowScrollbar();
+    }
+
+    @Override
+    public boolean mouseScrolled(double mouseX, double mouseY, double amount) {
+        if (!this.hasScrollbar()) {
+            return false;
+        }
+
+        int i = (this.handler.getInventory().size() + SCROLL_SCREEN_COLS - 1) / SCROLL_SCREEN_COLS - SCROLL_SCREEN_ROWS;
+        float f = (float) (amount / (double) i);
+        this.scrollPosition = MathHelper.clamp(this.scrollPosition - f, 0.0f, 1.0f);
+        this.handler.scrollItems(this.scrollPosition);
+        return true;
+    }
+
+    protected boolean isClickInScrollbar(double mouseX, double mouseY) {
+        int i = this.x + PADDING_LEFT + this.cols * SLOT_SIZE + GAP_BETWEEN_CONTAINER_INVENTORY_AND_SCROLL_BAR + 1;
+        int j = this.y + PADDING_TOP + 1;
+        int k = i + SCROLLBAR_WIDTH + 1;
+        int l = j + this.rows * SLOT_SIZE;
+        return mouseX >= (double) i && mouseY >= (double) j && mouseX < (double) k && mouseY < (double) l;
+    }
+
+    @Override
+    public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
+        if (this.hasScrollbar() && this.scrolling) {
+            int i = this.y + PADDING_TOP + 1;
+            int j = i + this.rows * SLOT_SIZE;
+            this.scrollPosition = ((float) mouseY - (float) i - (float) SCROLLBAR_HEIGHT / 2.0f)
+                    / ((float) (j - i) - (float) SCROLLBAR_HEIGHT);
+            this.scrollPosition = MathHelper.clamp(this.scrollPosition, 0.0f, 1.0f);
+            this.handler.scrollItems(this.scrollPosition);
+            return true;
+        }
+
+        return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
     }
 }
