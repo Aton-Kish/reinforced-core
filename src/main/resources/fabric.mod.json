@@ -14,7 +14,8 @@
   "environment": "*",
   "entrypoints": {
     "main": ["atonkish.reinfcore.ReinforcedCoreMod"],
-    "client": ["atonkish.reinfcore.ReinforcedCoreClientMod"]
+    "client": ["atonkish.reinfcore.ReinforcedCoreClientMod"],
+    "modmenu": ["atonkish.reinfcore.integration.modmenu.ModMenu"]
   },
   "mixins": ["reinfcore.mixins.json"],
   "depends": {
