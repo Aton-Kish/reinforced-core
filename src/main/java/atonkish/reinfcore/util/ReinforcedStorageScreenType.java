@@ -1,8 +1,8 @@
 package atonkish.reinfcore.util;
 
 public enum ReinforcedStorageScreenType {
-    SINGLE("single"),
-    SCROLL("scroll");
+    SINGLE("Single"),
+    SCROLL("Scroll");
 
     private final String type;
 
