@@ -52,7 +52,7 @@ public class ReinforcedStorageScreenModel {
     }
 
     public static int getContainerInventoryColumns(int size) {
-        if (ReinforcedCoreMod.CONFIG.scrollType == ReinforcedStorageScreenType.SCROLL) {
+        if (ReinforcedCoreMod.CONFIG.screenType == ReinforcedStorageScreenType.SCROLL) {
             return SCROLL_SCREEN_COLS;
         }
 
@@ -61,7 +61,7 @@ public class ReinforcedStorageScreenModel {
 
     public static int getContainerInventoryRows(int size, int cols) {
         int rows = size / cols;
-        if (ReinforcedCoreMod.CONFIG.scrollType == ReinforcedStorageScreenType.SCROLL
+        if (ReinforcedCoreMod.CONFIG.screenType == ReinforcedStorageScreenType.SCROLL
                 && rows > ReinforcedCoreMod.CONFIG.scrollScreen.rows) {
             return ReinforcedCoreMod.CONFIG.scrollScreen.rows;
         }

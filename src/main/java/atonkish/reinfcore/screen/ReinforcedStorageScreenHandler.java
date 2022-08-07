@@ -103,7 +103,7 @@ public class ReinforcedStorageScreenHandler extends ScreenHandler {
             int x = containerInventoryPoint.getX() + col * SLOT_SIZE + 1;
             int y = containerInventoryPoint.getY() + row * SLOT_SIZE + 1;
 
-            if (ReinforcedCoreMod.CONFIG.scrollType == ReinforcedStorageScreenType.SCROLL
+            if (ReinforcedCoreMod.CONFIG.screenType == ReinforcedStorageScreenType.SCROLL
                     && row >= ReinforcedCoreMod.CONFIG.scrollScreen.rows) {
                 // HACK: slot position far away outside if scroll screen type
                 x = Integer.MIN_VALUE;
@@ -145,7 +145,7 @@ public class ReinforcedStorageScreenHandler extends ScreenHandler {
     }
 
     public void scrollItems(float position) {
-        if (ReinforcedCoreMod.CONFIG.scrollType != ReinforcedStorageScreenType.SCROLL) {
+        if (ReinforcedCoreMod.CONFIG.screenType != ReinforcedStorageScreenType.SCROLL) {
             return;
         }
 
@@ -178,7 +178,7 @@ public class ReinforcedStorageScreenHandler extends ScreenHandler {
     }
 
     public boolean shouldShowScrollbar() {
-        return ReinforcedCoreMod.CONFIG.scrollType == ReinforcedStorageScreenType.SCROLL
+        return ReinforcedCoreMod.CONFIG.screenType == ReinforcedStorageScreenType.SCROLL
                 && this.inventory.size() > SCROLL_SCREEN_COLS * ReinforcedCoreMod.CONFIG.scrollScreen.rows;
     }
 

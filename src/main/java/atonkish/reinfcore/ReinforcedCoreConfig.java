@@ -9,7 +9,7 @@ import atonkish.reinfcore.util.ReinforcedStorageScreenType;
 @Config(name = ReinforcedCoreMod.MOD_ID)
 public class ReinforcedCoreConfig implements ConfigData {
     @ConfigEntry.Gui.EnumHandler(option = ConfigEntry.Gui.EnumHandler.EnumDisplayOption.BUTTON)
-    public ReinforcedStorageScreenType scrollType = ReinforcedStorageScreenType.SINGLE;
+    public ReinforcedStorageScreenType screenType = ReinforcedStorageScreenType.SINGLE;
 
     @ConfigEntry.Gui.CollapsibleObject
     public ScrollScreen scrollScreen = new ScrollScreen();
