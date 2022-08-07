@@ -12,6 +12,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 
+import atonkish.reinfcore.ReinforcedCoreMod;
 import atonkish.reinfcore.screen.ReinforcedStorageScreenHandler;
 import atonkish.reinfcore.util.ReinforcedStorageScreenModel;
 import atonkish.reinfcore.util.ReinforcedStorageScreenModels;
@@ -31,7 +32,6 @@ public class ReinforcedStorageScreen extends HandledScreen<ReinforcedStorageScre
 
     private static final int SINGLE_SCREEN_DEFAULT_COLS = 9;
     private static final int SCROLL_SCREEN_COLS = 9;
-    private static final int SCROLL_SCREEN_ROWS = 5;
 
     private static final Identifier BACKGROUND_TEXTURE = new Identifier("textures/gui/demo_background.png");
     private static final int BACKGROUND_CORNER = 4;
@@ -456,7 +456,8 @@ public class ReinforcedStorageScreen extends HandledScreen<ReinforcedStorageScre
             return false;
         }
 
-        int i = (this.handler.getInventory().size() + SCROLL_SCREEN_COLS - 1) / SCROLL_SCREEN_COLS - SCROLL_SCREEN_ROWS;
+        int i = (this.handler.getInventory().size() + SCROLL_SCREEN_COLS - 1) / SCROLL_SCREEN_COLS
+                - ReinforcedCoreMod.CONFIG.scrollScreen.rows;
         float f = (float) (amount / (double) i);
         this.scrollPosition = MathHelper.clamp(this.scrollPosition - f, 0.0f, 1.0f);
         this.handler.scrollItems(this.scrollPosition);

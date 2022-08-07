@@ -23,7 +23,6 @@ public class ReinforcedStorageScreenHandler extends ScreenHandler {
     private static final int GAP_BETWEEN_PLAYER_INVENTORY_STORAGE_AND_PLAYER_INVENTORY_HOTBAR = 4;
 
     private static final int SCROLL_SCREEN_COLS = 9;
-    private static final int SCROLL_SCREEN_ROWS = 5;
 
     private final Inventory inventory;
     private final ReinforcingMaterial material;
@@ -105,7 +104,7 @@ public class ReinforcedStorageScreenHandler extends ScreenHandler {
             int y = containerInventoryPoint.getY() + row * SLOT_SIZE + 1;
 
             if (ReinforcedCoreMod.CONFIG.scrollType == ReinforcedStorageScreenType.SCROLL
-                    && row >= SCROLL_SCREEN_ROWS) {
+                    && row >= ReinforcedCoreMod.CONFIG.scrollScreen.rows) {
                 // HACK: slot position far away outside if scroll screen type
                 x = Integer.MIN_VALUE;
                 y = Integer.MIN_VALUE;
@@ -150,7 +149,8 @@ public class ReinforcedStorageScreenHandler extends ScreenHandler {
             return;
         }
 
-        int i = (this.inventory.size() + SCROLL_SCREEN_COLS - 1) / SCROLL_SCREEN_COLS - SCROLL_SCREEN_ROWS;
+        int i = (this.inventory.size() + SCROLL_SCREEN_COLS - 1) / SCROLL_SCREEN_COLS
+                - ReinforcedCoreMod.CONFIG.scrollScreen.rows;
         int srow = (int) ((double) (position * (float) i) + 0.5);
         if (srow < 0) {
             srow = 0;
@@ -165,7 +165,7 @@ public class ReinforcedStorageScreenHandler extends ScreenHandler {
             int x = containerInventoryPoint.getX() + col * SLOT_SIZE + 1;
             int y = containerInventoryPoint.getY() + (row - srow) * SLOT_SIZE + 1;
 
-            if (row < srow || row >= srow + SCROLL_SCREEN_ROWS) {
+            if (row < srow || row >= srow + ReinforcedCoreMod.CONFIG.scrollScreen.rows) {
                 // HACK: slot position far away outside if scroll screen type
                 x = Integer.MIN_VALUE;
                 y = Integer.MIN_VALUE;
@@ -179,7 +179,7 @@ public class ReinforcedStorageScreenHandler extends ScreenHandler {
 
     public boolean shouldShowScrollbar() {
         return ReinforcedCoreMod.CONFIG.scrollType == ReinforcedStorageScreenType.SCROLL
-                && this.inventory.size() > SCROLL_SCREEN_COLS * SCROLL_SCREEN_ROWS;
+                && this.inventory.size() > SCROLL_SCREEN_COLS * ReinforcedCoreMod.CONFIG.scrollScreen.rows;
     }
 
     @Override

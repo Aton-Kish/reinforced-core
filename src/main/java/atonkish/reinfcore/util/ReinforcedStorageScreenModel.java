@@ -12,7 +12,6 @@ public class ReinforcedStorageScreenModel {
     private static final int SINGLE_SCREEN_THRESHOLD_SIZE = 81;
     private static final int SINGLE_SCREEN_DEFAULT_COLS = 9;
     private static final int SCROLL_SCREEN_COLS = 9;
-    private static final int SCROLL_SCREEN_ROWS = 5;
 
     private final ReinforcingMaterial material;
     private final boolean isDoubleBlock;
@@ -61,10 +60,12 @@ public class ReinforcedStorageScreenModel {
     }
 
     public static int getContainerInventoryRows(int size, int cols) {
-        if (ReinforcedCoreMod.CONFIG.scrollType == ReinforcedStorageScreenType.SCROLL) {
-            return SCROLL_SCREEN_ROWS;
+        int rows = size / cols;
+        if (ReinforcedCoreMod.CONFIG.scrollType == ReinforcedStorageScreenType.SCROLL
+                && rows > ReinforcedCoreMod.CONFIG.scrollScreen.rows) {
+            return ReinforcedCoreMod.CONFIG.scrollScreen.rows;
         }
 
-        return size / cols;
+        return rows;
     }
 }

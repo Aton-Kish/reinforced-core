@@ -10,4 +10,12 @@ import atonkish.reinfcore.util.ReinforcedStorageScreenType;
 public class ReinforcedCoreConfig implements ConfigData {
     @ConfigEntry.Gui.EnumHandler(option = ConfigEntry.Gui.EnumHandler.EnumDisplayOption.BUTTON)
     public ReinforcedStorageScreenType scrollType = ReinforcedStorageScreenType.SINGLE;
+
+    @ConfigEntry.Gui.CollapsibleObject
+    public ScrollScreen scrollScreen = new ScrollScreen();
+
+    public class ScrollScreen {
+        @ConfigEntry.BoundedDiscrete(min = 6, max = 9)
+        public int rows = 6;
+    }
 }
