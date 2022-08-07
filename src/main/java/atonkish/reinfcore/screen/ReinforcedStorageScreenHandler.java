@@ -177,7 +177,8 @@ public class ReinforcedStorageScreenHandler extends ScreenHandler {
     }
 
     public boolean shouldShowScrollbar() {
-        return ReinforcedCoreMod.CONFIG.scrollType == ReinforcedStorageScreenType.SCROLL && this.rows >= 5;
+        return ReinforcedCoreMod.CONFIG.scrollType == ReinforcedStorageScreenType.SCROLL
+                && this.inventory.size() > SCROLL_SCREEN_COLS * SCROLL_SCREEN_ROWS;
     }
 
     public ItemStack transferSlot(PlayerEntity player, int index) {
