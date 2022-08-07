@@ -2,5 +2,5 @@
   "itemGroup.reinfcore.reinforced_storage": "Reinforced Storage",
 
   "text.autoconfig.reinfcore.title": "Reinforced Core",
-  "text.autoconfig.reinfcore.option.scrollScreen": "スクロールスクリーン"
+  "text.autoconfig.reinfcore.option.scrollType": "スクリーンタイプ"
 }
