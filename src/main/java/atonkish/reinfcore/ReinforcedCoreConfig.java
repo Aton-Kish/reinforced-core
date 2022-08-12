@@ -14,7 +14,7 @@ public class ReinforcedCoreConfig implements ConfigData {
     @ConfigEntry.Gui.CollapsibleObject
     public ScrollScreen scrollScreen = new ScrollScreen();
 
-    public class ScrollScreen {
+    public static class ScrollScreen {
         @ConfigEntry.BoundedDiscrete(min = 6, max = 9)
         public int rows = 6;
     }
