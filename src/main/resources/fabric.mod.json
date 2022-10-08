@@ -4,9 +4,7 @@
   "version": "${version}",
   "name": "Reinforced Core",
   "description": "A library for reinforced storage mod series.",
-  "authors": [
-    "Aton-Kish"
-  ],
+  "authors": ["Aton-Kish"],
   "contact": {
     "homepage": "https://github.com/Aton-Kish/reinforced-core",
     "sources": "https://github.com/Aton-Kish/reinforced-core"
@@ -15,16 +13,11 @@
   "icon": "assets/reinfcore/icon.png",
   "environment": "*",
   "entrypoints": {
-    "main": [
-      "atonkish.reinfcore.ReinforcedCoreMod"
-    ],
-    "client": [
-      "atonkish.reinfcore.ReinforcedCoreClientMod"
-    ]
+    "main": ["atonkish.reinfcore.ReinforcedCoreMod"],
+    "client": ["atonkish.reinfcore.ReinforcedCoreClientMod"],
+    "modmenu": ["atonkish.reinfcore.integration.modmenu.ModMenu"]
   },
-  "mixins": [
-    "reinfcore.mixins.json"
-  ],
+  "mixins": ["reinfcore.mixins.json"],
   "depends": {
     "fabricloader": ">=0.11.3",
     "fabric": "*",
