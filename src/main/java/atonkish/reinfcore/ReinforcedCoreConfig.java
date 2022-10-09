@@ -11,7 +11,7 @@ public class ReinforcedCoreConfig implements ConfigData {
     @ConfigEntry.Gui.EnumHandler(option = ConfigEntry.Gui.EnumHandler.EnumDisplayOption.BUTTON)
     public ReinforcedStorageScreenType screenType = ReinforcedStorageScreenType.SINGLE;
 
-    @ConfigEntry.Gui.CollapsibleObject
+    @ConfigEntry.Gui.CollapsibleObject(startExpanded = true)
     public ScrollScreen scrollScreen = new ScrollScreen();
 
     public static class ScrollScreen {
