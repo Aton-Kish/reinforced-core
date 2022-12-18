@@ -2,6 +2,7 @@
   "schemaVersion": 1,
   "id": "reinfcore",
   "version": "${version}",
+
   "name": "Reinforced Core",
   "description": "A library for reinforced storage mod series.",
   "authors": ["Aton-Kish"],
@@ -9,8 +10,10 @@
     "homepage": "https://github.com/Aton-Kish/reinforced-core",
     "sources": "https://github.com/Aton-Kish/reinforced-core"
   },
+
   "license": "MIT",
   "icon": "assets/reinfcore/icon.png",
+
   "environment": "*",
   "entrypoints": {
     "main": ["atonkish.reinfcore.ReinforcedCoreMod"],
@@ -18,10 +21,15 @@
     "modmenu": ["atonkish.reinfcore.integration.modmenu.ModMenu"]
   },
   "mixins": ["reinfcore.mixins.json"],
+
   "depends": {
-    "fabricloader": ">=0.14.6",
-    "fabric": "*",
-    "minecraft": "~1.19",
+    "fabricloader": ">=0.14.11",
+    "fabric-api": "*",
+    "minecraft": "~1.19.3",
     "java": ">=17"
+  },
+  "suggests": {
+    "modmenu": "*",
+    "cloth-config": "*"
   }
 }
