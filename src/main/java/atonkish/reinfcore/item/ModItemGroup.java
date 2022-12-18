@@ -1,6 +1,6 @@
 package atonkish.reinfcore.item;
 
-import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
+import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemGroup;
@@ -22,8 +22,9 @@ public class ModItemGroup {
     }
 
     private static ItemGroup create(String id) {
-        Identifier identifier = new Identifier(ReinforcedCoreMod.MOD_ID, id);
-        return FabricItemGroupBuilder.create(identifier).build();
+        return FabricItemGroup
+                .builder(new Identifier(ReinforcedCoreMod.MOD_ID, id))
+                .build();
     }
 
     static {

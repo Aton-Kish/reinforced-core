@@ -4,9 +4,10 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 import atonkish.reinfcore.ReinforcedCoreMod;
 import atonkish.reinfcore.util.ReinforcingMaterial;
@@ -60,7 +61,7 @@ public class ModScreenHandlerType {
         Identifier identifier = new Identifier(ReinforcedCoreMod.MOD_ID, id);
         ScreenHandlerType<ReinforcedStorageScreenHandler> type = new ScreenHandlerType<ReinforcedStorageScreenHandler>(
                 factory);
-        return Registry.register(Registry.SCREEN_HANDLER, identifier, type);
+        return Registry.register(Registries.SCREEN_HANDLER, identifier, type);
     }
 
     private static ScreenHandlerType.Factory<ReinforcedStorageScreenHandler> createSingleBlockScreenHandlerFactory(
