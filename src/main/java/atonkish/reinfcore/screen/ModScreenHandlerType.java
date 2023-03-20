@@ -6,6 +6,7 @@ import java.util.Map;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.resource.featuretoggle.FeatureFlags;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
 
@@ -60,7 +61,7 @@ public class ModScreenHandlerType {
             ScreenHandlerType.Factory<ReinforcedStorageScreenHandler> factory) {
         Identifier identifier = new Identifier(ReinforcedCoreMod.MOD_ID, id);
         ScreenHandlerType<ReinforcedStorageScreenHandler> type = new ScreenHandlerType<ReinforcedStorageScreenHandler>(
-                factory);
+                factory, FeatureFlags.VANILLA_FEATURES);
         return Registry.register(Registries.SCREEN_HANDLER, identifier, type);
     }
 
