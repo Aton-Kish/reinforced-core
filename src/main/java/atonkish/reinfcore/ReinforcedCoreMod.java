@@ -10,7 +10,7 @@ import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 
 import atonkish.reinfcore.api.ReinforcedCoreModInitializer;
-import atonkish.reinfcore.item.ModItemGroup;
+import atonkish.reinfcore.item.ModItemGroups;
 
 public class ReinforcedCoreMod implements ModInitializer {
 	public static final String MOD_ID = "reinfcore";
@@ -24,7 +24,7 @@ public class ReinforcedCoreMod implements ModInitializer {
 		CONFIG = AutoConfig.getConfigHolder(ReinforcedCoreConfig.class).getConfig();
 
 		// Items
-		ModItemGroup.init();
+		ModItemGroups.init();
 
 		// entrypoint: "reinfcore"
 		FabricLoader.getInstance()

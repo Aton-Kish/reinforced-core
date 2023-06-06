@@ -10,7 +10,7 @@ import net.minecraft.util.Identifier;
 import atonkish.reinfcore.ReinforcedCoreMod;
 import atonkish.reinfcore.mixin.ItemGroupAccessor;
 
-public class ModItemGroup {
+public class ModItemGroups {
     public static final ItemGroup REINFORCED_STORAGE;
 
     public static void init() {
@@ -21,13 +21,9 @@ public class ModItemGroup {
         ((ItemGroupAccessor) itemGroup).setIcon(itemStack);
     }
 
-    private static ItemGroup create(String id) {
-        return FabricItemGroup
-                .builder(new Identifier(ReinforcedCoreMod.MOD_ID, id))
-                .build();
-    }
-
     static {
-        REINFORCED_STORAGE = create("reinforced_storage");
+        REINFORCED_STORAGE = FabricItemGroup
+                .builder(new Identifier(ReinforcedCoreMod.MOD_ID, "reinforced_storage"))
+                .build();
     }
 }
