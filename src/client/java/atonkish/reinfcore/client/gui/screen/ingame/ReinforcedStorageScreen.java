@@ -58,12 +58,11 @@ public class ReinforcedStorageScreen extends HandledScreen<ReinforcedStorageScre
     private static final int SCROLLBAR_BACKGROUND_WIDTH = 14;
     private static final int SCROLLBAR_BACKGROUND_HEIGHT = 112;
 
-    private static final Identifier SCROLLBAR_TEXTURE = new Identifier(
-            "textures/gui/container/creative_inventory/tabs.png");
-    private static final int SCROLLBAR_X = 232;
-    private static final int SCROLLBAR_Y = 0;
-    private static final int SCROLLBAR_WIDTH = 12;
-    private static final int SCROLLBAR_HEIGHT = 15;
+    private static final Identifier SCROLLER_TEXTURE = new Identifier("container/creative_inventory/scroller");
+    private static final Identifier SCROLLER_DISABLED_TEXTURE = new Identifier(
+            "container/creative_inventory/scroller_disabled");
+    private static final int SCROLLER_WIDTH = 12;
+    private static final int SCROLLER_HEIGHT = 15;
 
     private final ReinforcedStorageScreenModel screenModel;
     private final int cols;
@@ -105,7 +104,7 @@ public class ReinforcedStorageScreen extends HandledScreen<ReinforcedStorageScre
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        this.renderBackground(context);
+        this.renderBackground(context, mouseX, mouseY, delta);
         super.render(context, mouseX, mouseY, delta);
         this.drawMouseoverTooltip(context, mouseX, mouseY);
     }
@@ -419,14 +418,13 @@ public class ReinforcedStorageScreen extends HandledScreen<ReinforcedStorageScre
         int ymin = this.y + PADDING_TOP + 1;
         int ymax = ymin + this.rows * SLOT_SIZE;
 
-        context.drawTexture(SCROLLBAR_TEXTURE,
+        Identifier identifier = this.hasScrollbar() ? SCROLLER_TEXTURE : SCROLLER_DISABLED_TEXTURE;
+        context.drawGuiTexture(identifier,
                 this.x + PADDING_LEFT + this.cols * SLOT_SIZE
                         + GAP_BETWEEN_CONTAINER_INVENTORY_AND_SCROLL_BAR + 1,
-                ymin + (int) ((float) (ymax - ymin - (SCROLLBAR_HEIGHT + 2)) * this.scrollPosition),
-                SCROLLBAR_X + (this.hasScrollbar() ? 0 : SCROLLBAR_WIDTH),
-                SCROLLBAR_Y,
-                SCROLLBAR_WIDTH,
-                SCROLLBAR_HEIGHT);
+                ymin + (int) ((float) (ymax - ymin - (SCROLLER_HEIGHT + 2)) * this.scrollPosition),
+                SCROLLER_WIDTH,
+                SCROLLER_HEIGHT);
     }
 
     @Override
@@ -455,14 +453,14 @@ public class ReinforcedStorageScreen extends HandledScreen<ReinforcedStorageScre
     }
 
     @Override
-    public boolean mouseScrolled(double mouseX, double mouseY, double amount) {
+    public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
         if (!this.hasScrollbar()) {
             return false;
         }
 
-        int i = (this.handler.getInventory().size() + SCROLL_SCREEN_COLS - 1) / SCROLL_SCREEN_COLS
+        int i = MathHelper.ceilDiv(this.handler.getInventory().size(), SCROLL_SCREEN_COLS)
                 - ReinforcedCoreMod.CONFIG.scrollScreen.rows;
-        float f = (float) (amount / (double) i);
+        float f = (float) (verticalAmount / (double) i);
         this.scrollPosition = MathHelper.clamp(this.scrollPosition - f, 0.0f, 1.0f);
         this.handler.scrollItems(this.scrollPosition);
         return true;
@@ -472,7 +470,7 @@ public class ReinforcedStorageScreen extends HandledScreen<ReinforcedStorageScre
         int i = this.x + PADDING_LEFT + this.cols * SLOT_SIZE + GAP_BETWEEN_CONTAINER_INVENTORY_AND_SCROLL_BAR
                 + 1;
         int j = this.y + PADDING_TOP + 1;
-        int k = i + SCROLLBAR_WIDTH + 1;
+        int k = i + SCROLLER_WIDTH + 1;
         int l = j + this.rows * SLOT_SIZE;
         return mouseX >= (double) i && mouseY >= (double) j && mouseX < (double) k && mouseY < (double) l;
     }
@@ -482,8 +480,8 @@ public class ReinforcedStorageScreen extends HandledScreen<ReinforcedStorageScre
         if (this.hasScrollbar() && this.scrolling) {
             int i = this.y + PADDING_TOP + 1;
             int j = i + this.rows * SLOT_SIZE;
-            this.scrollPosition = ((float) mouseY - (float) i - (float) SCROLLBAR_HEIGHT / 2.0f)
-                    / ((float) (j - i) - (float) SCROLLBAR_HEIGHT);
+            this.scrollPosition = ((float) mouseY - (float) i - (float) SCROLLER_HEIGHT / 2.0f)
+                    / ((float) (j - i) - (float) SCROLLER_HEIGHT);
             this.scrollPosition = MathHelper.clamp(this.scrollPosition, 0.0f, 1.0f);
             this.handler.scrollItems(this.scrollPosition);
             return true;
