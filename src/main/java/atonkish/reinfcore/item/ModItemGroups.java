@@ -24,7 +24,7 @@ public class ModItemGroups {
     }
 
     private static RegistryKey<ItemGroup> register(String id) {
-        return RegistryKey.of(RegistryKeys.ITEM_GROUP, new Identifier(ReinforcedCoreMod.MOD_ID, id));
+        return RegistryKey.of(RegistryKeys.ITEM_GROUP, Identifier.of(ReinforcedCoreMod.MOD_ID, id));
     }
 
     static {

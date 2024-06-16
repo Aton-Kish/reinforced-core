@@ -59,7 +59,7 @@ public class ModScreenHandlerType {
 
     private static ScreenHandlerType<ReinforcedStorageScreenHandler> register(String id,
             ScreenHandlerType.Factory<ReinforcedStorageScreenHandler> factory) {
-        Identifier identifier = new Identifier(ReinforcedCoreMod.MOD_ID, id);
+        Identifier identifier = Identifier.of(ReinforcedCoreMod.MOD_ID, id);
         ScreenHandlerType<ReinforcedStorageScreenHandler> type = new ScreenHandlerType<ReinforcedStorageScreenHandler>(
                 factory, FeatureFlags.VANILLA_FEATURES);
         return Registry.register(Registries.SCREEN_HANDLER, identifier, type);
