@@ -34,14 +34,14 @@ public class ReinforcedStorageScreen extends HandledScreen<ReinforcedStorageScre
     private static final int SINGLE_SCREEN_DEFAULT_COLS = 9;
     private static final int SCROLL_SCREEN_COLS = 9;
 
-    private static final Identifier BACKGROUND_TEXTURE = new Identifier("textures/gui/demo_background.png");
+    private static final Identifier BACKGROUND_TEXTURE = Identifier.ofVanilla("textures/gui/demo_background.png");
     private static final int BACKGROUND_CORNER = 4;
     private static final int BACKGROUND_X = 0;
     private static final int BACKGROUND_Y = 0;
     private static final int BACKGROUND_WIDTH = 248;
     private static final int BACKGROUND_HEIGHT = 166;
 
-    private static final Identifier CONTAINER_TEXTURE = new Identifier("textures/gui/container/generic_54.png");
+    private static final Identifier CONTAINER_TEXTURE = Identifier.ofVanilla("textures/gui/container/generic_54.png");
     private static final int CONTAINER_INVENTORY_X = 7;
     private static final int CONTAINER_INVENTORY_Y = 17;
     private static final int CONTAINER_INVENTORY_COLS = 9;
@@ -51,15 +51,15 @@ public class ReinforcedStorageScreen extends HandledScreen<ReinforcedStorageScre
     private static final int PLAYER_INVENTORY_WIDTH = 162;
     private static final int PLAYER_INVENTORY_HEIGHT = 76;
 
-    private static final Identifier SCROLLBAR_BACKGROUND_TEXTURE = new Identifier(
+    private static final Identifier SCROLLBAR_BACKGROUND_TEXTURE = Identifier.ofVanilla(
             "textures/gui/container/creative_inventory/tab_items.png");
     private static final int SCROLLBAR_BACKGROUND_X = 174;
     private static final int SCROLLBAR_BACKGROUND_Y = 17;
     private static final int SCROLLBAR_BACKGROUND_WIDTH = 14;
     private static final int SCROLLBAR_BACKGROUND_HEIGHT = 112;
 
-    private static final Identifier SCROLLER_TEXTURE = new Identifier("container/creative_inventory/scroller");
-    private static final Identifier SCROLLER_DISABLED_TEXTURE = new Identifier(
+    private static final Identifier SCROLLER_TEXTURE = Identifier.ofVanilla("container/creative_inventory/scroller");
+    private static final Identifier SCROLLER_DISABLED_TEXTURE = Identifier.ofVanilla(
             "container/creative_inventory/scroller_disabled");
     private static final int SCROLLER_WIDTH = 12;
     private static final int SCROLLER_HEIGHT = 15;
