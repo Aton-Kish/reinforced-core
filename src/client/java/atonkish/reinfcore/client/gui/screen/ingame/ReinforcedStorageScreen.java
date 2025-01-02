@@ -1,13 +1,11 @@
 package atonkish.reinfcore.client.gui.screen.ingame;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.render.GameRenderer;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -111,9 +109,6 @@ public class ReinforcedStorageScreen extends HandledScreen<ReinforcedStorageScre
 
     @Override
     protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
-        RenderSystem.setShader(GameRenderer::getPositionTexProgram);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-
         this.drawBackgroundTexture(context);
         this.drawSlotTexture(context);
         if (this.hasScrollbar()) {
@@ -137,40 +132,52 @@ public class ReinforcedStorageScreen extends HandledScreen<ReinforcedStorageScre
         //
 
         // left-top
-        context.drawTexture(BACKGROUND_TEXTURE,
+        context.drawTexture(RenderLayer::getGuiTextured,
+                BACKGROUND_TEXTURE,
                 this.x,
                 this.y,
                 BACKGROUND_X,
                 BACKGROUND_Y,
                 BACKGROUND_CORNER,
-                BACKGROUND_CORNER);
+                BACKGROUND_CORNER,
+                256,
+                256);
 
         // right-top
-        context.drawTexture(BACKGROUND_TEXTURE,
+        context.drawTexture(RenderLayer::getGuiTextured,
+                BACKGROUND_TEXTURE,
                 this.x + this.backgroundWidth - BACKGROUND_CORNER,
                 this.y,
                 BACKGROUND_WIDTH - BACKGROUND_CORNER,
                 BACKGROUND_Y,
                 BACKGROUND_CORNER,
-                BACKGROUND_CORNER);
+                BACKGROUND_CORNER,
+                256,
+                256);
 
         // right-top
-        context.drawTexture(BACKGROUND_TEXTURE,
+        context.drawTexture(RenderLayer::getGuiTextured,
+                BACKGROUND_TEXTURE,
                 this.x,
                 this.y + this.backgroundHeight - BACKGROUND_CORNER,
                 BACKGROUND_X,
                 BACKGROUND_HEIGHT - BACKGROUND_CORNER,
                 BACKGROUND_CORNER,
-                BACKGROUND_CORNER);
+                BACKGROUND_CORNER,
+                256,
+                256);
 
         // right-bottom
-        context.drawTexture(BACKGROUND_TEXTURE,
+        context.drawTexture(RenderLayer::getGuiTextured,
+                BACKGROUND_TEXTURE,
                 this.x + this.backgroundWidth - BACKGROUND_CORNER,
                 this.y + this.backgroundHeight - BACKGROUND_CORNER,
                 BACKGROUND_WIDTH - BACKGROUND_CORNER,
                 BACKGROUND_HEIGHT - BACKGROUND_CORNER,
                 BACKGROUND_CORNER,
-                BACKGROUND_CORNER);
+                BACKGROUND_CORNER,
+                256,
+                256);
 
         //
         // edge
@@ -178,79 +185,103 @@ public class ReinforcedStorageScreen extends HandledScreen<ReinforcedStorageScre
 
         for (int hcnt = 0; hcnt < hnum; ++hcnt) {
             // top
-            context.drawTexture(BACKGROUND_TEXTURE,
+            context.drawTexture(RenderLayer::getGuiTextured,
+                    BACKGROUND_TEXTURE,
                     this.x + BACKGROUND_CORNER + hcnt * (BACKGROUND_WIDTH - BACKGROUND_CORNER * 2),
                     this.y,
                     BACKGROUND_CORNER,
                     BACKGROUND_Y,
                     BACKGROUND_WIDTH - BACKGROUND_CORNER * 2,
-                    BACKGROUND_CORNER);
+                    BACKGROUND_CORNER,
+                    256,
+                    256);
 
             // bottom
-            context.drawTexture(BACKGROUND_TEXTURE,
+            context.drawTexture(RenderLayer::getGuiTextured,
+                    BACKGROUND_TEXTURE,
                     this.x + BACKGROUND_CORNER + hcnt * (BACKGROUND_WIDTH - BACKGROUND_CORNER * 2),
                     this.y + this.backgroundHeight - BACKGROUND_CORNER,
                     BACKGROUND_CORNER,
                     BACKGROUND_HEIGHT - BACKGROUND_CORNER,
                     BACKGROUND_WIDTH - BACKGROUND_CORNER * 2,
-                    BACKGROUND_CORNER);
+                    BACKGROUND_CORNER,
+                    256,
+                    256);
         }
 
         for (int vcnt = 0; vcnt < vnum; ++vcnt) {
             // left
-            context.drawTexture(BACKGROUND_TEXTURE,
+            context.drawTexture(RenderLayer::getGuiTextured,
+                    BACKGROUND_TEXTURE,
                     this.x,
                     this.y + BACKGROUND_CORNER + vcnt * (BACKGROUND_HEIGHT - BACKGROUND_CORNER * 2),
                     BACKGROUND_X,
                     BACKGROUND_CORNER,
                     BACKGROUND_CORNER,
-                    BACKGROUND_HEIGHT - BACKGROUND_CORNER * 2);
+                    BACKGROUND_HEIGHT - BACKGROUND_CORNER * 2,
+                    256,
+                    256);
 
             // right
-            context.drawTexture(BACKGROUND_TEXTURE,
+            context.drawTexture(RenderLayer::getGuiTextured,
+                    BACKGROUND_TEXTURE,
                     this.x + this.backgroundWidth - BACKGROUND_CORNER,
                     this.y + BACKGROUND_CORNER + vcnt * (BACKGROUND_HEIGHT - BACKGROUND_CORNER * 2),
                     BACKGROUND_WIDTH - BACKGROUND_CORNER,
                     BACKGROUND_CORNER,
                     BACKGROUND_CORNER,
-                    BACKGROUND_HEIGHT - BACKGROUND_CORNER * 2);
+                    BACKGROUND_HEIGHT - BACKGROUND_CORNER * 2,
+                    256,
+                    256);
         }
 
         // top
-        context.drawTexture(BACKGROUND_TEXTURE,
+        context.drawTexture(RenderLayer::getGuiTextured,
+                BACKGROUND_TEXTURE,
                 this.x + BACKGROUND_CORNER + hnum * (BACKGROUND_WIDTH - BACKGROUND_CORNER * 2),
                 this.y,
                 BACKGROUND_CORNER,
                 BACKGROUND_Y,
                 hrem,
-                BACKGROUND_CORNER);
+                BACKGROUND_CORNER,
+                256,
+                256);
 
         // bottom
-        context.drawTexture(BACKGROUND_TEXTURE,
+        context.drawTexture(RenderLayer::getGuiTextured,
+                BACKGROUND_TEXTURE,
                 this.x + BACKGROUND_CORNER + hnum * (BACKGROUND_WIDTH - BACKGROUND_CORNER * 2),
                 this.y + this.backgroundHeight - BACKGROUND_CORNER,
                 BACKGROUND_CORNER,
                 BACKGROUND_HEIGHT - BACKGROUND_CORNER,
                 hrem,
-                BACKGROUND_CORNER);
+                BACKGROUND_CORNER,
+                256,
+                256);
 
         // left
-        context.drawTexture(BACKGROUND_TEXTURE,
+        context.drawTexture(RenderLayer::getGuiTextured,
+                BACKGROUND_TEXTURE,
                 this.x,
                 this.y + BACKGROUND_CORNER + vnum * (BACKGROUND_HEIGHT - BACKGROUND_CORNER * 2),
                 BACKGROUND_X,
                 BACKGROUND_CORNER,
                 BACKGROUND_CORNER,
-                vrem);
+                vrem,
+                256,
+                256);
 
         // right
-        context.drawTexture(BACKGROUND_TEXTURE,
+        context.drawTexture(RenderLayer::getGuiTextured,
+                BACKGROUND_TEXTURE,
                 this.x + this.backgroundWidth - BACKGROUND_CORNER,
                 this.y + BACKGROUND_CORNER + vnum * (BACKGROUND_HEIGHT - BACKGROUND_CORNER * 2),
                 BACKGROUND_WIDTH - BACKGROUND_CORNER,
                 BACKGROUND_CORNER,
                 BACKGROUND_CORNER,
-                vrem);
+                vrem,
+                256,
+                256);
 
         //
         // area
@@ -258,7 +289,8 @@ public class ReinforcedStorageScreen extends HandledScreen<ReinforcedStorageScre
 
         for (int vcnt = 0; vcnt < vnum; ++vcnt) {
             for (int hcnt = 0; hcnt < hnum; ++hcnt) {
-                context.drawTexture(BACKGROUND_TEXTURE,
+                context.drawTexture(RenderLayer::getGuiTextured,
+                        BACKGROUND_TEXTURE,
                         this.x + BACKGROUND_CORNER
                                 + hcnt * (BACKGROUND_WIDTH - BACKGROUND_CORNER * 2),
                         this.y + BACKGROUND_CORNER
@@ -266,35 +298,46 @@ public class ReinforcedStorageScreen extends HandledScreen<ReinforcedStorageScre
                         BACKGROUND_CORNER,
                         BACKGROUND_CORNER,
                         BACKGROUND_WIDTH - BACKGROUND_CORNER * 2,
-                        BACKGROUND_HEIGHT - BACKGROUND_CORNER * 2);
+                        BACKGROUND_HEIGHT - BACKGROUND_CORNER * 2,
+                        256,
+                        256);
             }
 
-            context.drawTexture(BACKGROUND_TEXTURE,
+            context.drawTexture(RenderLayer::getGuiTextured,
+                    BACKGROUND_TEXTURE,
                     this.x + BACKGROUND_CORNER + hnum * (BACKGROUND_WIDTH - BACKGROUND_CORNER * 2),
                     this.y + BACKGROUND_CORNER + vcnt * (BACKGROUND_HEIGHT - BACKGROUND_CORNER * 2),
                     BACKGROUND_CORNER,
                     BACKGROUND_CORNER,
                     hrem,
-                    BACKGROUND_HEIGHT - BACKGROUND_CORNER * 2);
+                    BACKGROUND_HEIGHT - BACKGROUND_CORNER * 2,
+                    256,
+                    256);
         }
 
         for (int hcnt = 0; hcnt < hnum; ++hcnt) {
-            context.drawTexture(BACKGROUND_TEXTURE,
+            context.drawTexture(RenderLayer::getGuiTextured,
+                    BACKGROUND_TEXTURE,
                     this.x + BACKGROUND_CORNER + hcnt * (BACKGROUND_WIDTH - BACKGROUND_CORNER * 2),
                     this.y + BACKGROUND_CORNER + vnum * (BACKGROUND_HEIGHT - BACKGROUND_CORNER * 2),
                     BACKGROUND_CORNER,
                     BACKGROUND_CORNER,
                     BACKGROUND_WIDTH - BACKGROUND_CORNER * 2,
-                    vrem);
+                    vrem,
+                    256,
+                    256);
         }
 
-        context.drawTexture(BACKGROUND_TEXTURE,
+        context.drawTexture(RenderLayer::getGuiTextured,
+                BACKGROUND_TEXTURE,
                 this.x + BACKGROUND_CORNER + hnum * (BACKGROUND_WIDTH - BACKGROUND_CORNER * 2),
                 this.y + BACKGROUND_CORNER + vnum * (BACKGROUND_HEIGHT - BACKGROUND_CORNER * 2),
                 BACKGROUND_CORNER,
                 BACKGROUND_CORNER,
                 hrem,
-                vrem);
+                vrem,
+                256,
+                256);
     }
 
     private void drawSlotTexture(DrawContext context) {
@@ -312,7 +355,8 @@ public class ReinforcedStorageScreen extends HandledScreen<ReinforcedStorageScre
 
         for (int vcnt = 0; vcnt < vnum; ++vcnt) {
             for (int hcnt = 0; hcnt < hnum; ++hcnt) {
-                context.drawTexture(CONTAINER_TEXTURE,
+                context.drawTexture(RenderLayer::getGuiTextured,
+                        CONTAINER_TEXTURE,
                         this.x + containerInventoryPoint.getX()
                                 + hcnt * CONTAINER_INVENTORY_COLS * SLOT_SIZE,
                         this.y + containerInventoryPoint.getY()
@@ -320,10 +364,13 @@ public class ReinforcedStorageScreen extends HandledScreen<ReinforcedStorageScre
                         CONTAINER_INVENTORY_X,
                         CONTAINER_INVENTORY_Y,
                         CONTAINER_INVENTORY_COLS * SLOT_SIZE,
-                        CONTAINER_INVENTORY_ROWS * SLOT_SIZE);
+                        CONTAINER_INVENTORY_ROWS * SLOT_SIZE,
+                        256,
+                        256);
             }
 
-            context.drawTexture(CONTAINER_TEXTURE,
+            context.drawTexture(RenderLayer::getGuiTextured,
+                    CONTAINER_TEXTURE,
                     this.x + containerInventoryPoint.getX()
                             + hnum * CONTAINER_INVENTORY_COLS * SLOT_SIZE,
                     this.y + containerInventoryPoint.getY()
@@ -331,11 +378,14 @@ public class ReinforcedStorageScreen extends HandledScreen<ReinforcedStorageScre
                     CONTAINER_INVENTORY_X,
                     CONTAINER_INVENTORY_Y,
                     hrem,
-                    CONTAINER_INVENTORY_ROWS * SLOT_SIZE);
+                    CONTAINER_INVENTORY_ROWS * SLOT_SIZE,
+                    256,
+                    256);
         }
 
         for (int hcnt = 0; hcnt < hnum; ++hcnt) {
-            context.drawTexture(CONTAINER_TEXTURE,
+            context.drawTexture(RenderLayer::getGuiTextured,
+                    CONTAINER_TEXTURE,
                     this.x + containerInventoryPoint.getX()
                             + hcnt * CONTAINER_INVENTORY_COLS * SLOT_SIZE,
                     this.y + containerInventoryPoint.getY()
@@ -343,16 +393,21 @@ public class ReinforcedStorageScreen extends HandledScreen<ReinforcedStorageScre
                     CONTAINER_INVENTORY_X,
                     CONTAINER_INVENTORY_Y,
                     CONTAINER_INVENTORY_COLS * SLOT_SIZE,
-                    vrem);
+                    vrem,
+                    256,
+                    256);
         }
 
-        context.drawTexture(CONTAINER_TEXTURE,
+        context.drawTexture(RenderLayer::getGuiTextured,
+                CONTAINER_TEXTURE,
                 this.x + containerInventoryPoint.getX() + hnum * CONTAINER_INVENTORY_COLS * SLOT_SIZE,
                 this.y + containerInventoryPoint.getY() + vnum * CONTAINER_INVENTORY_ROWS * SLOT_SIZE,
                 CONTAINER_INVENTORY_X,
                 CONTAINER_INVENTORY_Y,
                 hrem,
-                vrem);
+                vrem,
+                256,
+                256);
 
         //
         // player inventory
@@ -360,13 +415,16 @@ public class ReinforcedStorageScreen extends HandledScreen<ReinforcedStorageScre
 
         Point2i playerInventoryPoint = this.screenModel.getPlayerInventoryPoint();
 
-        context.drawTexture(CONTAINER_TEXTURE,
+        context.drawTexture(RenderLayer::getGuiTextured,
+                CONTAINER_TEXTURE,
                 this.x + playerInventoryPoint.getX(),
                 this.y + playerInventoryPoint.getY(),
                 PLAYER_INVENTORY_X,
                 PLAYER_INVENTORY_Y,
                 PLAYER_INVENTORY_WIDTH,
-                PLAYER_INVENTORY_HEIGHT);
+                PLAYER_INVENTORY_HEIGHT,
+                256,
+                256);
     }
 
     private void drawScrollbarTexture(DrawContext context) {
@@ -377,39 +435,51 @@ public class ReinforcedStorageScreen extends HandledScreen<ReinforcedStorageScre
         int vnum = (this.rows * SLOT_SIZE - 2) / (SCROLLBAR_BACKGROUND_HEIGHT - 2);
         int vrem = (this.rows * SLOT_SIZE - 2) % (SCROLLBAR_BACKGROUND_HEIGHT - 2);
 
-        context.drawTexture(SCROLLBAR_BACKGROUND_TEXTURE,
+        context.drawTexture(RenderLayer::getGuiTextured,
+                SCROLLBAR_BACKGROUND_TEXTURE,
                 this.x + this.backgroundWidth - (SCROLLBAR_BACKGROUND_WIDTH + PADDING_RIGHT),
                 this.y + PADDING_TOP,
                 SCROLLBAR_BACKGROUND_X,
                 SCROLLBAR_BACKGROUND_Y,
                 SCROLLBAR_BACKGROUND_WIDTH,
-                1);
+                1,
+                256,
+                256);
 
         for (int vcnt = 0; vcnt < vnum; ++vcnt) {
-            context.drawTexture(SCROLLBAR_BACKGROUND_TEXTURE,
+            context.drawTexture(RenderLayer::getGuiTextured,
+                    SCROLLBAR_BACKGROUND_TEXTURE,
                     this.x + this.backgroundWidth - (SCROLLBAR_BACKGROUND_WIDTH + PADDING_RIGHT),
                     this.y + PADDING_TOP + 1 + vcnt * (SCROLLBAR_BACKGROUND_HEIGHT - 2),
                     SCROLLBAR_BACKGROUND_X,
                     SCROLLBAR_BACKGROUND_Y + 1,
                     SCROLLBAR_BACKGROUND_WIDTH,
-                    SCROLLBAR_BACKGROUND_HEIGHT - 2);
+                    SCROLLBAR_BACKGROUND_HEIGHT - 2,
+                    256,
+                    256);
         }
 
-        context.drawTexture(SCROLLBAR_BACKGROUND_TEXTURE,
+        context.drawTexture(RenderLayer::getGuiTextured,
+                SCROLLBAR_BACKGROUND_TEXTURE,
                 this.x + this.backgroundWidth - (SCROLLBAR_BACKGROUND_WIDTH + PADDING_RIGHT),
                 this.y + PADDING_TOP + 1 + vnum * (SCROLLBAR_BACKGROUND_HEIGHT - 2),
                 SCROLLBAR_BACKGROUND_X,
                 SCROLLBAR_BACKGROUND_Y + 1,
                 SCROLLBAR_BACKGROUND_WIDTH,
-                vrem);
+                vrem,
+                256,
+                256);
 
-        context.drawTexture(SCROLLBAR_BACKGROUND_TEXTURE,
+        context.drawTexture(RenderLayer::getGuiTextured,
+                SCROLLBAR_BACKGROUND_TEXTURE,
                 this.x + this.backgroundWidth - (SCROLLBAR_BACKGROUND_WIDTH + PADDING_RIGHT),
                 this.y + PADDING_TOP + this.rows * SLOT_SIZE - 1,
                 SCROLLBAR_BACKGROUND_X,
                 SCROLLBAR_BACKGROUND_Y + SCROLLBAR_BACKGROUND_HEIGHT - 1,
                 SCROLLBAR_BACKGROUND_WIDTH,
-                1);
+                1,
+                256,
+                256);
 
         //
         // button
@@ -419,7 +489,8 @@ public class ReinforcedStorageScreen extends HandledScreen<ReinforcedStorageScre
         int ymax = ymin + this.rows * SLOT_SIZE;
 
         Identifier identifier = this.hasScrollbar() ? SCROLLER_TEXTURE : SCROLLER_DISABLED_TEXTURE;
-        context.drawGuiTexture(identifier,
+        context.drawGuiTexture(RenderLayer::getGuiTextured,
+                identifier,
                 this.x + PADDING_LEFT + this.cols * SLOT_SIZE
                         + GAP_BETWEEN_CONTAINER_INVENTORY_AND_SCROLL_BAR + 1,
                 ymin + (int) ((float) (ymax - ymin - (SCROLLER_HEIGHT + 2)) * this.scrollPosition),
