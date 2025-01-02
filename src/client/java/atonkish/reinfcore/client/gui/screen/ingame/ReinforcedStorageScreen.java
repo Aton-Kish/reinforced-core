@@ -1,8 +1,5 @@
 package atonkish.reinfcore.client.gui.screen.ingame;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.render.RenderLayer;
@@ -10,6 +7,9 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
+
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
 import atonkish.reinfcore.ReinforcedCoreMod;
 import atonkish.reinfcore.screen.ReinforcedStorageScreenHandler;
