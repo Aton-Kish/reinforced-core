@@ -3,7 +3,7 @@
   "minVersion": "0.8",
   "package": "atonkish.reinfcore.mixin",
   "compatibilityLevel": "JAVA_21",
-  "mixins": ["ItemGroupAccessor", "SlotAccessor"],
+  "mixins": ["ItemGroupAccessor", "RegistryLoaderMixin", "SlotAccessor"],
   "injectors": {
     "defaultRequire": 1
   }

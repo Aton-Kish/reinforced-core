@@ -1,3 +1,4 @@
 accessWidener	v1	named
 
 accessible	method	net/minecraft/screen/ScreenHandlerType <init> (Lnet/minecraft/screen/ScreenHandlerType$Factory;Lnet/minecraft/resource/featuretoggle/FeatureSet;)V
+accessible	class	net/minecraft/registry/RegistryLoader$Loader
