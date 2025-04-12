@@ -44,12 +44,6 @@ public final class TestAnnotationLocator {
             }
         }
 
-        if (functions.isEmpty()) {
-            ReinforcedCoreMod.LOGGER.warn(
-                    "No methods with the CustomTestProvider annotation were found in {}",
-                    testClass.getName());
-        }
-
         return functions;
     }
 
