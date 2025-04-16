@@ -53,10 +53,6 @@ public class ReinforcedCoreMod implements ModInitializer {
 	}
 
 	private void onInitializeReinforcedCoreGameTest() {
-		if (!(FabricGameTestRunner.ENABLED || FabricLoader.getInstance().isDevelopmentEnvironment())) {
-			return;
-		}
-
 		for (TestFunction testFunction : locator.getTestFunctions()) {
 			LOGGER.debug("Registering test function: {}", testFunction.identifier());
 			Registry.register(Registries.TEST_FUNCTION, testFunction.identifier(), testFunction.testFunction());
