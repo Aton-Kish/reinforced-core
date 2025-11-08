@@ -17,7 +17,6 @@ import net.minecraft.test.TestEnvironmentDefinition;
 import net.minecraft.test.TestInstance;
 
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.impl.gametest.FabricGameTestRunner;
 import net.fabricmc.loader.api.FabricLoader;
 
 import me.shedaniel.autoconfig.AutoConfig;
