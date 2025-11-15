@@ -19,12 +19,12 @@ repositories {
 
 	// ModMenu
 	maven {
-		url "https://maven.terraformersmc.com/releases/"
+		url = "https://maven.terraformersmc.com/releases/"
 	}
 
 	// Cloth Config
 	maven {
-		url "https://maven.shedaniel.me/"
+		url = "https://maven.shedaniel.me/"
 	}
 }
 
@@ -106,7 +106,7 @@ publishing {
 		// The repositories here will be used for publishing your artifact, not for
 		// retrieving dependencies.
 		maven {
-			url "file:/$buildDir/maven"
+			url = "file://${buildDir}/maven"
 		}
 	}
 }

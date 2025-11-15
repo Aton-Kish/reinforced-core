@@ -1,6 +1,7 @@
 package atonkish.reinfcore.client.gui.screen.ingame;
 
 import net.minecraft.client.gl.RenderPipelines;
+import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.entity.player.PlayerInventory;
@@ -498,24 +499,24 @@ public class ReinforcedStorageScreen extends HandledScreen<ReinforcedStorageScre
     }
 
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if (this.hasScrollbar() && button == 0) {
-            if (this.isClickInScrollbar(mouseX, mouseY)) {
+    public boolean mouseClicked(Click click, boolean doubled) {
+        if (this.hasScrollbar() && click.button() == 0) {
+            if (this.isClickInScrollbar(click.x(), click.y())) {
                 this.scrolling = this.hasScrollbar();
                 return true;
             }
         }
 
-        return super.mouseClicked(mouseX, mouseY, button);
+        return super.mouseClicked(click, doubled);
     }
 
     @Override
-    public boolean mouseReleased(double mouseX, double mouseY, int button) {
-        if (this.hasScrollbar() && button == 0) {
+    public boolean mouseReleased(Click click) {
+        if (this.hasScrollbar() && click.button() == 0) {
             this.scrolling = false;
         }
 
-        return super.mouseReleased(mouseX, mouseY, button);
+        return super.mouseReleased(click);
     }
 
     private boolean hasScrollbar() {
@@ -546,17 +547,17 @@ public class ReinforcedStorageScreen extends HandledScreen<ReinforcedStorageScre
     }
 
     @Override
-    public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
+    public boolean mouseDragged(Click click, double offsetX, double offsetY) {
         if (this.hasScrollbar() && this.scrolling) {
             int i = this.y + PADDING_TOP + 1;
             int j = i + this.rows * SLOT_SIZE;
-            this.scrollPosition = ((float) mouseY - (float) i - (float) SCROLLER_HEIGHT / 2.0f)
+            this.scrollPosition = ((float) click.y() - (float) i - (float) SCROLLER_HEIGHT / 2.0f)
                     / ((float) (j - i) - (float) SCROLLER_HEIGHT);
             this.scrollPosition = MathHelper.clamp(this.scrollPosition, 0.0f, 1.0f);
             this.handler.scrollItems(this.scrollPosition);
             return true;
         }
 
-        return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
+        return super.mouseDragged(click, offsetX, offsetY);
     }
 }
