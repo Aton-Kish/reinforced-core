@@ -28,50 +28,55 @@ import atonkish.reinfcore.gametest.TestFunction;
 import atonkish.reinfcore.item.ModItemGroups;
 
 public class ReinforcedCoreMod implements ModInitializer {
-	public static final String MOD_ID = "reinfcore";
-	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-	public static ReinforcedCoreConfig CONFIG;
-	private static TestAnnotationLocator locator = new TestAnnotationLocator(FabricLoader.getInstance());
+  public static final String MOD_ID = "reinfcore";
+  public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+  public static ReinforcedCoreConfig CONFIG;
+  private static TestAnnotationLocator locator =
+      new TestAnnotationLocator(FabricLoader.getInstance());
 
-	@Override
-	public void onInitialize() {
-		// Auto Config
-		AutoConfig.register(ReinforcedCoreConfig.class, GsonConfigSerializer::new);
-		CONFIG = AutoConfig.getConfigHolder(ReinforcedCoreConfig.class).getConfig();
+  @Override
+  public void onInitialize() {
+    // Auto Config
+    AutoConfig.register(ReinforcedCoreConfig.class, GsonConfigSerializer::new);
+    CONFIG = AutoConfig.getConfigHolder(ReinforcedCoreConfig.class).getConfig();
 
-		// Items
-		ModItemGroups.init();
+    // Items
+    ModItemGroups.init();
 
-		// entrypoint: "reinfcore"
-		FabricLoader.getInstance()
-				.getEntrypoints(MOD_ID, ReinforcedCoreModInitializer.class)
-				.forEach(ReinforcedCoreModInitializer::onInitializeReinforcedCore);
+    // entrypoint: "reinfcore"
+    FabricLoader.getInstance()
+        .getEntrypoints(MOD_ID, ReinforcedCoreModInitializer.class)
+        .forEach(ReinforcedCoreModInitializer::onInitializeReinforcedCore);
 
-		// entrypoint: "reinfcore-gametest"
-		this.onInitializeReinforcedCoreGameTest();
-	}
+    // entrypoint: "reinfcore-gametest"
+    this.onInitializeReinforcedCoreGameTest();
+  }
 
-	private void onInitializeReinforcedCoreGameTest() {
-		for (TestFunction testFunction : locator.getTestFunctions()) {
-			LOGGER.debug("Registering test function: {}", testFunction.identifier());
-			Registry.register(Registries.TEST_FUNCTION, testFunction.identifier(), testFunction.testFunction());
-		}
-	}
+  private void onInitializeReinforcedCoreGameTest() {
+    for (TestFunction testFunction : locator.getTestFunctions()) {
+      LOGGER.debug("Registering test function: {}", testFunction.identifier());
+      Registry.register(
+          Registries.TEST_FUNCTION, testFunction.identifier(), testFunction.testFunction());
+    }
+  }
 
-	public static void registerDynamicEntries(List<RegistryLoader.Loader<?>> registriesList) {
-		Map<RegistryKey<? extends Registry<?>>, Registry<?>> registries = new IdentityHashMap<>(registriesList.size());
+  public static void registerDynamicEntries(List<RegistryLoader.Loader<?>> registriesList) {
+    Map<RegistryKey<? extends Registry<?>>, Registry<?>> registries =
+        new IdentityHashMap<>(registriesList.size());
 
-		for (RegistryLoader.Loader<?> entry : registriesList) {
-			registries.put(entry.registry().getKey(), entry.registry());
-		}
+    for (RegistryLoader.Loader<?> entry : registriesList) {
+      registries.put(entry.registry().getKey(), entry.registry());
+    }
 
-		Registry<TestInstance> testInstances = (Registry<TestInstance>) registries.get(RegistryKeys.TEST_INSTANCE);
-		Registry<TestEnvironmentDefinition> testEnvironmentDefinitionRegistry = (Registry<TestEnvironmentDefinition>) Objects
-				.requireNonNull(registries.get(RegistryKeys.TEST_ENVIRONMENT));
+    Registry<TestInstance> testInstances =
+        (Registry<TestInstance>) registries.get(RegistryKeys.TEST_INSTANCE);
+    Registry<TestEnvironmentDefinition> testEnvironmentDefinitionRegistry =
+        (Registry<TestEnvironmentDefinition>)
+            Objects.requireNonNull(registries.get(RegistryKeys.TEST_ENVIRONMENT));
 
-		for (TestFunction testFunction : locator.getTestFunctions()) {
-			TestInstance testInstance = testFunction.testInstance(testEnvironmentDefinitionRegistry);
-			Registry.register(testInstances, testFunction.identifier(), testInstance);
-		}
-	}
+    for (TestFunction testFunction : locator.getTestFunctions()) {
+      TestInstance testInstance = testFunction.testInstance(testEnvironmentDefinitionRegistry);
+      Registry.register(testInstances, testFunction.identifier(), testInstance);
+    }
+  }
 }

@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(ItemGroup.class)
 public interface ItemGroupAccessor {
-    @Mutable
-    @Accessor("icon")
-    public void setIcon(ItemStack itemStack);
+  @Mutable
+  @Accessor("icon")
+  public void setIcon(ItemStack itemStack);
 }

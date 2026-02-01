@@ -7,8 +7,8 @@ import net.minecraft.item.ItemStack;
 import atonkish.reinfcore.mixin.ItemGroupAccessor;
 
 public class ModItemGroup {
-    public static void setIcon(ItemGroup itemGroup, ItemConvertible item) {
-        ItemStack itemStack = new ItemStack(item);
-        ((ItemGroupAccessor) itemGroup).setIcon(itemStack);
-    }
+  public static void setIcon(ItemGroup itemGroup, ItemConvertible item) {
+    ItemStack itemStack = new ItemStack(item);
+    ((ItemGroupAccessor) itemGroup).setIcon(itemStack);
+  }
 }
