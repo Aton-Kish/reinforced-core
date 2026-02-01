@@ -1,0 +1,33 @@
+{
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+  "files.trimTrailingWhitespace": true,
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": true,
+  "java.configuration.updateBuildConfiguration": "interactive",
+  "java.completion.importOrder": [
+    "#",
+    "java",
+    "javax",
+    "org",
+    "com",
+    "io",
+    "",
+    "com.mojang",
+    "net.minecraft",
+    "net.fabricmc",
+    "org.spongepowered",
+    "me.shedaniel",
+    "com.terraformersmc",
+    "mcp.mobius.waila",
+    "snownee.jade",
+    "atonkish"
+  ],
+  "[java]": {
+    "editor.formatOnSave": true
+  },
+  "[json]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+}
