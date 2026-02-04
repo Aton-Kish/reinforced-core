@@ -12,4 +12,9 @@ sudo apt-get install -y \
     libgl1-mesa-dev \
     lefthook
 
+# https://docs.astral.sh/uv/getting-started/installation/
+curl -LsSf https://astral.sh/uv/install.sh | sh
+echo 'eval "$(uv generate-shell-completion bash)"' >> ~/.bashrc
+echo 'eval "$(uvx --generate-shell-completion bash)"' >> ~/.bashrc
+
 lefthook install

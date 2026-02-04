@@ -12,10 +12,7 @@
       "installGradle": "false"
     },
     "ghcr.io/devcontainers/features/git:1": {},
-    "ghcr.io/devcontainers/features/node:1": {},
-    "ghcr.io/devcontainers/features/python:1": {
-      "version": "latest"
-    }
+    "ghcr.io/devcontainers/features/node:1": {}
   },
 
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
