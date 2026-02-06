@@ -3,29 +3,29 @@ package atonkish.reinfcore.util;
 import net.minecraft.item.Item;
 
 public class ReinforcingMaterial {
-    private final String name;
-    private final int size;
-    private final Item ingredient;
+  private final String name;
+  private final int size;
+  private final Item ingredient;
 
-    public ReinforcingMaterial(String name, int size, Item ingredient) {
-        this.name = name;
-        this.size = size;
-        this.ingredient = ingredient;
-    }
+  public ReinforcingMaterial(String name, int size, Item ingredient) {
+    this.name = name;
+    this.size = size;
+    this.ingredient = ingredient;
+  }
 
-    public String toString() {
-        return this.name;
-    }
+  public String toString() {
+    return this.name;
+  }
 
-    public String getName() {
-        return this.name;
-    }
+  public String getName() {
+    return this.name;
+  }
 
-    public int getSize() {
-        return this.size;
-    }
+  public int getSize() {
+    return this.size;
+  }
 
-    public Item getIngredient() {
-        return this.ingredient;
-    }
+  public Item getIngredient() {
+    return this.ingredient;
+  }
 }

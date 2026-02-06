@@ -9,12 +9,13 @@ import atonkish.reinfcore.api.ReinforcedCoreClientModInitializer;
 
 @Environment(EnvType.CLIENT)
 public class ReinforcedCoreClientMod implements ClientModInitializer {
-	@Override
-	public void onInitializeClient() {
-		// entrypoint: "reinfcore-client"
-		FabricLoader.getInstance()
-				.getEntrypoints(String.format("%s-client", ReinforcedCoreMod.MOD_ID),
-						ReinforcedCoreClientModInitializer.class)
-				.forEach(ReinforcedCoreClientModInitializer::onInitializeReinforcedCoreClient);
-	}
+  @Override
+  public void onInitializeClient() {
+    // entrypoint: "reinfcore-client"
+    FabricLoader.getInstance()
+        .getEntrypoints(
+            String.format("%s-client", ReinforcedCoreMod.MOD_ID),
+            ReinforcedCoreClientModInitializer.class)
+        .forEach(ReinforcedCoreClientModInitializer::onInitializeReinforcedCoreClient);
+  }
 }

@@ -13,21 +13,27 @@ import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import atonkish.reinfcore.ReinforcedCoreMod;
 
 public class ModItemGroups {
-    public static final RegistryKey<ItemGroup> REINFORCED_STORAGE;
+  public static final RegistryKey<ItemGroup> REINFORCED_STORAGE;
 
-    public static void init() {
-        Registry.register(Registries.ITEM_GROUP, ModItemGroups.REINFORCED_STORAGE, FabricItemGroup
-                .builder()
-                .displayName(Text.translatable(String.format("itemGroup.%s.%s", ReinforcedCoreMod.MOD_ID,
+  public static void init() {
+    Registry.register(
+        Registries.ITEM_GROUP,
+        ModItemGroups.REINFORCED_STORAGE,
+        FabricItemGroup.builder()
+            .displayName(
+                Text.translatable(
+                    String.format(
+                        "itemGroup.%s.%s",
+                        ReinforcedCoreMod.MOD_ID,
                         ModItemGroups.REINFORCED_STORAGE.getValue().getPath())))
-                .build());
-    }
+            .build());
+  }
 
-    private static RegistryKey<ItemGroup> register(String id) {
-        return RegistryKey.of(RegistryKeys.ITEM_GROUP, Identifier.of(ReinforcedCoreMod.MOD_ID, id));
-    }
+  private static RegistryKey<ItemGroup> register(String id) {
+    return RegistryKey.of(RegistryKeys.ITEM_GROUP, Identifier.of(ReinforcedCoreMod.MOD_ID, id));
+  }
 
-    static {
-        REINFORCED_STORAGE = ModItemGroups.register("reinforced_storage");
-    }
+  static {
+    REINFORCED_STORAGE = ModItemGroups.register("reinforced_storage");
+  }
 }

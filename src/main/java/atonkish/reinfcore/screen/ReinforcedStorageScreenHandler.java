@@ -19,217 +19,255 @@ import atonkish.reinfcore.util.ReinforcingMaterial;
 import atonkish.reinfcore.util.math.Point2i;
 
 public class ReinforcedStorageScreenHandler extends ScreenHandler {
-    private static final int SLOT_SIZE = 18;
-    private static final int GAP_BETWEEN_PLAYER_INVENTORY_STORAGE_AND_PLAYER_INVENTORY_HOTBAR = 4;
+  private static final int SLOT_SIZE = 18;
+  private static final int GAP_BETWEEN_PLAYER_INVENTORY_STORAGE_AND_PLAYER_INVENTORY_HOTBAR = 4;
 
-    private static final int SCROLL_SCREEN_COLS = 9;
+  private static final int SCROLL_SCREEN_COLS = 9;
 
-    private final Inventory inventory;
-    private final ReinforcingMaterial material;
-    private final boolean isDoubleBlock;
-    private final boolean isShulkerBox;
-    private final int cols;
-    private final int rows;
-    private final ReinforcedStorageScreenModel screenModel;
+  private final Inventory inventory;
+  private final ReinforcingMaterial material;
+  private final boolean isDoubleBlock;
+  private final boolean isShulkerBox;
+  private final int cols;
+  private final int rows;
+  private final ReinforcedStorageScreenModel screenModel;
 
-    public ReinforcedStorageScreenHandler(ScreenHandlerType<?> type, ReinforcingMaterial material,
-            boolean isDoubleBlock, boolean isShulkerBox, int syncId, PlayerInventory playerInventory,
-            Inventory inventory) {
-        super(type, syncId);
-        this.inventory = inventory;
-        this.material = material;
-        this.isDoubleBlock = isDoubleBlock;
-        this.isShulkerBox = isShulkerBox;
-        inventory.onOpen(playerInventory.player);
+  public ReinforcedStorageScreenHandler(
+      ScreenHandlerType<?> type,
+      ReinforcingMaterial material,
+      boolean isDoubleBlock,
+      boolean isShulkerBox,
+      int syncId,
+      PlayerInventory playerInventory,
+      Inventory inventory) {
+    super(type, syncId);
+    this.inventory = inventory;
+    this.material = material;
+    this.isDoubleBlock = isDoubleBlock;
+    this.isShulkerBox = isShulkerBox;
+    inventory.onOpen(playerInventory.player);
 
-        int size = inventory.size();
-        this.cols = ReinforcedStorageScreenModel.getContainerInventoryColumns(size);
-        this.rows = ReinforcedStorageScreenModel.getContainerInventoryRows(size, this.cols);
+    int size = inventory.size();
+    this.cols = ReinforcedStorageScreenModel.getContainerInventoryColumns(size);
+    this.rows = ReinforcedStorageScreenModel.getContainerInventoryRows(size, this.cols);
 
-        this.screenModel = this.isDoubleBlock
-                ? ReinforcedStorageScreenModels.DOUBLE_MAP.get(this.material)
-                : ReinforcedStorageScreenModels.SINGLE_MAP.get(this.material);
+    this.screenModel =
+        this.isDoubleBlock
+            ? ReinforcedStorageScreenModels.DOUBLE_MAP.get(this.material)
+            : ReinforcedStorageScreenModels.SINGLE_MAP.get(this.material);
 
-        this.addSlots(playerInventory);
+    this.addSlots(playerInventory);
+  }
+
+  public static ReinforcedStorageScreenHandler createSingleBlockScreen(
+      ReinforcingMaterial material,
+      int syncId,
+      PlayerInventory playerInventory,
+      Inventory inventory) {
+    return new ReinforcedStorageScreenHandler(
+        ModScreenHandlerType.REINFORCED_SINGLE_BLOCK_MAP.get(material),
+        material,
+        false,
+        false,
+        syncId,
+        playerInventory,
+        inventory);
+  }
+
+  public static ReinforcedStorageScreenHandler createSingleBlockScreen(
+      ReinforcingMaterial material, int syncId, PlayerInventory playerInventory) {
+    int size = ReinforcedStorageScreenModel.getContainerInventorySize(material, false);
+    Inventory inventory = new SimpleInventory(size);
+    return createSingleBlockScreen(material, syncId, playerInventory, inventory);
+  }
+
+  public static ReinforcedStorageScreenHandler createDoubleBlockScreen(
+      ReinforcingMaterial material,
+      int syncId,
+      PlayerInventory playerInventory,
+      Inventory inventory) {
+    return new ReinforcedStorageScreenHandler(
+        ModScreenHandlerType.REINFORCED_DOUBLE_BLOCK_MAP.get(material),
+        material,
+        true,
+        false,
+        syncId,
+        playerInventory,
+        inventory);
+  }
+
+  public static ReinforcedStorageScreenHandler createDoubleBlockScreen(
+      ReinforcingMaterial material, int syncId, PlayerInventory playerInventory) {
+    int size = ReinforcedStorageScreenModel.getContainerInventorySize(material, true);
+    Inventory inventory = new SimpleInventory(size);
+    return createDoubleBlockScreen(material, syncId, playerInventory, inventory);
+  }
+
+  public static ReinforcedStorageScreenHandler createShulkerBoxScreen(
+      ReinforcingMaterial material,
+      int syncId,
+      PlayerInventory playerInventory,
+      Inventory inventory) {
+    return new ReinforcedStorageScreenHandler(
+        ModScreenHandlerType.REINFORCED_SHULKER_BOX_MAP.get(material),
+        material,
+        false,
+        true,
+        syncId,
+        playerInventory,
+        inventory);
+  }
+
+  public static ReinforcedStorageScreenHandler createShulkerBoxScreen(
+      ReinforcingMaterial material, int syncId, PlayerInventory playerInventory) {
+    int size = ReinforcedStorageScreenModel.getContainerInventorySize(material, false);
+    Inventory inventory = new SimpleInventory(size);
+    return createShulkerBoxScreen(material, syncId, playerInventory, inventory);
+  }
+
+  private void addSlots(PlayerInventory playerInventory) {
+    Point2i containerInventoryPoint = this.screenModel.getContainerInventoryPoint();
+    Point2i playerInventoryPoint = this.screenModel.getPlayerInventoryPoint();
+
+    for (int index = 0; index < this.inventory.size(); ++index) {
+      int col = index % this.cols;
+      int row = (index - col) / this.cols;
+
+      int x = containerInventoryPoint.getX() + col * SLOT_SIZE + 1;
+      int y = containerInventoryPoint.getY() + row * SLOT_SIZE + 1;
+
+      if (ReinforcedCoreMod.CONFIG.screenType == ReinforcedStorageScreenType.SCROLL
+          && row >= ReinforcedCoreMod.CONFIG.scrollScreen.rows) {
+        // HACK: slot position far away outside if scroll screen type
+        x = Integer.MIN_VALUE;
+        y = Integer.MIN_VALUE;
+      }
+
+      Slot slot =
+          this.isShulkerBox
+              ? new ShulkerBoxSlot(this.inventory, index, x, y)
+              : new Slot(this.inventory, index, x, y);
+      this.addSlot(slot);
     }
 
-    public static ReinforcedStorageScreenHandler createSingleBlockScreen(ReinforcingMaterial material, int syncId,
-            PlayerInventory playerInventory, Inventory inventory) {
-        return new ReinforcedStorageScreenHandler(ModScreenHandlerType.REINFORCED_SINGLE_BLOCK_MAP.get(material),
-                material, false, false, syncId, playerInventory, inventory);
+    for (int index = 9; index < 36; ++index) {
+      int col = (index - 9) % 9;
+      int row = (index - col - 9) / 9;
+
+      int x = playerInventoryPoint.getX() + col * SLOT_SIZE + 1;
+      int y = playerInventoryPoint.getY() + row * SLOT_SIZE + 1;
+
+      Slot slot = new Slot(playerInventory, index, x, y);
+      this.addSlot(slot);
     }
 
-    public static ReinforcedStorageScreenHandler createSingleBlockScreen(ReinforcingMaterial material, int syncId,
-            PlayerInventory playerInventory) {
-        int size = ReinforcedStorageScreenModel.getContainerInventorySize(material, false);
-        Inventory inventory = new SimpleInventory(size);
-        return createSingleBlockScreen(material, syncId, playerInventory, inventory);
+    for (int index = 0; index < 9; ++index) {
+      int col = index;
+
+      int x = playerInventoryPoint.getX() + col * SLOT_SIZE + 1;
+      int y =
+          playerInventoryPoint.getY()
+              + 3 * SLOT_SIZE
+              + GAP_BETWEEN_PLAYER_INVENTORY_STORAGE_AND_PLAYER_INVENTORY_HOTBAR
+              + 1;
+
+      Slot slot = new Slot(playerInventory, index, x, y);
+      this.addSlot(slot);
+    }
+  }
+
+  @Override
+  public boolean canUse(PlayerEntity player) {
+    return this.inventory.canPlayerUse(player);
+  }
+
+  public void scrollItems(float position) {
+    if (ReinforcedCoreMod.CONFIG.screenType != ReinforcedStorageScreenType.SCROLL) {
+      return;
     }
 
-    public static ReinforcedStorageScreenHandler createDoubleBlockScreen(ReinforcingMaterial material, int syncId,
-            PlayerInventory playerInventory, Inventory inventory) {
-        return new ReinforcedStorageScreenHandler(ModScreenHandlerType.REINFORCED_DOUBLE_BLOCK_MAP.get(material),
-                material, true, false, syncId, playerInventory, inventory);
+    int i =
+        (this.inventory.size() + SCROLL_SCREEN_COLS - 1) / SCROLL_SCREEN_COLS
+            - ReinforcedCoreMod.CONFIG.scrollScreen.rows;
+    int srow = (int) ((double) (position * (float) i) + 0.5);
+    if (srow < 0) {
+      srow = 0;
     }
 
-    public static ReinforcedStorageScreenHandler createDoubleBlockScreen(ReinforcingMaterial material, int syncId,
-            PlayerInventory playerInventory) {
-        int size = ReinforcedStorageScreenModel.getContainerInventorySize(material, true);
-        Inventory inventory = new SimpleInventory(size);
-        return createDoubleBlockScreen(material, syncId, playerInventory, inventory);
+    Point2i containerInventoryPoint = this.screenModel.getContainerInventoryPoint();
+
+    for (int index = 0; index < this.inventory.size(); ++index) {
+      int col = index % this.cols;
+      int row = (index - col) / this.cols;
+
+      int x = containerInventoryPoint.getX() + col * SLOT_SIZE + 1;
+      int y = containerInventoryPoint.getY() + (row - srow) * SLOT_SIZE + 1;
+
+      if (row < srow || row >= srow + ReinforcedCoreMod.CONFIG.scrollScreen.rows) {
+        // HACK: slot position far away outside if scroll screen type
+        x = Integer.MIN_VALUE;
+        y = Integer.MIN_VALUE;
+      }
+
+      Slot slot = this.getSlot(index);
+      ((SlotAccessor) slot).setX(x);
+      ((SlotAccessor) slot).setY(y);
     }
+  }
 
-    public static ReinforcedStorageScreenHandler createShulkerBoxScreen(ReinforcingMaterial material, int syncId,
-            PlayerInventory playerInventory, Inventory inventory) {
-        return new ReinforcedStorageScreenHandler(ModScreenHandlerType.REINFORCED_SHULKER_BOX_MAP.get(material),
-                material, false, true, syncId, playerInventory, inventory);
+  public boolean shouldShowScrollbar() {
+    return ReinforcedCoreMod.CONFIG.screenType == ReinforcedStorageScreenType.SCROLL
+        && this.inventory.size() > SCROLL_SCREEN_COLS * ReinforcedCoreMod.CONFIG.scrollScreen.rows;
+  }
+
+  @Override
+  public ItemStack quickMove(PlayerEntity player, int slot) {
+    ItemStack itemStack = ItemStack.EMPTY;
+    Slot slot2 = (Slot) this.slots.get(slot);
+    if (slot2 != null && slot2.hasStack()) {
+      ItemStack itemStack2 = slot2.getStack();
+      itemStack = itemStack2.copy();
+      if (slot < this.inventory.size()
+          ? !this.insertItem(itemStack2, this.inventory.size(), this.slots.size(), true)
+          : !this.insertItem(itemStack2, 0, this.inventory.size(), false)) {
+        return ItemStack.EMPTY;
+      }
+      if (itemStack2.isEmpty()) {
+        slot2.setStack(ItemStack.EMPTY);
+      } else {
+        slot2.markDirty();
+      }
     }
+    return itemStack;
+  }
 
-    public static ReinforcedStorageScreenHandler createShulkerBoxScreen(ReinforcingMaterial material, int syncId,
-            PlayerInventory playerInventory) {
-        int size = ReinforcedStorageScreenModel.getContainerInventorySize(material, false);
-        Inventory inventory = new SimpleInventory(size);
-        return createShulkerBoxScreen(material, syncId, playerInventory, inventory);
-    }
+  @Override
+  public void onClosed(PlayerEntity player) {
+    super.onClosed(player);
+    this.inventory.onClose(player);
+  }
 
-    private void addSlots(PlayerInventory playerInventory) {
-        Point2i containerInventoryPoint = this.screenModel.getContainerInventoryPoint();
-        Point2i playerInventoryPoint = this.screenModel.getPlayerInventoryPoint();
+  public Inventory getInventory() {
+    return this.inventory;
+  }
 
-        for (int index = 0; index < this.inventory.size(); ++index) {
-            int col = index % this.cols;
-            int row = (index - col) / this.cols;
+  public ReinforcingMaterial getMaterial() {
+    return this.material;
+  }
 
-            int x = containerInventoryPoint.getX() + col * SLOT_SIZE + 1;
-            int y = containerInventoryPoint.getY() + row * SLOT_SIZE + 1;
+  public boolean getIsDoubleBlock() {
+    return this.isDoubleBlock;
+  }
 
-            if (ReinforcedCoreMod.CONFIG.screenType == ReinforcedStorageScreenType.SCROLL
-                    && row >= ReinforcedCoreMod.CONFIG.scrollScreen.rows) {
-                // HACK: slot position far away outside if scroll screen type
-                x = Integer.MIN_VALUE;
-                y = Integer.MIN_VALUE;
-            }
+  public boolean getIsShulkerBox() {
+    return this.isShulkerBox;
+  }
 
-            Slot slot = this.isShulkerBox
-                    ? new ShulkerBoxSlot(this.inventory, index, x, y)
-                    : new Slot(this.inventory, index, x, y);
-            this.addSlot(slot);
-        }
+  public int getColumns() {
+    return this.cols;
+  }
 
-        for (int index = 9; index < 36; ++index) {
-            int col = (index - 9) % 9;
-            int row = (index - col - 9) / 9;
-
-            int x = playerInventoryPoint.getX() + col * SLOT_SIZE + 1;
-            int y = playerInventoryPoint.getY() + row * SLOT_SIZE + 1;
-
-            Slot slot = new Slot(playerInventory, index, x, y);
-            this.addSlot(slot);
-        }
-
-        for (int index = 0; index < 9; ++index) {
-            int col = index;
-
-            int x = playerInventoryPoint.getX() + col * SLOT_SIZE + 1;
-            int y = playerInventoryPoint.getY() + 3 * SLOT_SIZE
-                    + GAP_BETWEEN_PLAYER_INVENTORY_STORAGE_AND_PLAYER_INVENTORY_HOTBAR + 1;
-
-            Slot slot = new Slot(playerInventory, index, x, y);
-            this.addSlot(slot);
-        }
-    }
-
-    @Override
-    public boolean canUse(PlayerEntity player) {
-        return this.inventory.canPlayerUse(player);
-    }
-
-    public void scrollItems(float position) {
-        if (ReinforcedCoreMod.CONFIG.screenType != ReinforcedStorageScreenType.SCROLL) {
-            return;
-        }
-
-        int i = (this.inventory.size() + SCROLL_SCREEN_COLS - 1) / SCROLL_SCREEN_COLS
-                - ReinforcedCoreMod.CONFIG.scrollScreen.rows;
-        int srow = (int) ((double) (position * (float) i) + 0.5);
-        if (srow < 0) {
-            srow = 0;
-        }
-
-        Point2i containerInventoryPoint = this.screenModel.getContainerInventoryPoint();
-
-        for (int index = 0; index < this.inventory.size(); ++index) {
-            int col = index % this.cols;
-            int row = (index - col) / this.cols;
-
-            int x = containerInventoryPoint.getX() + col * SLOT_SIZE + 1;
-            int y = containerInventoryPoint.getY() + (row - srow) * SLOT_SIZE + 1;
-
-            if (row < srow || row >= srow + ReinforcedCoreMod.CONFIG.scrollScreen.rows) {
-                // HACK: slot position far away outside if scroll screen type
-                x = Integer.MIN_VALUE;
-                y = Integer.MIN_VALUE;
-            }
-
-            Slot slot = this.getSlot(index);
-            ((SlotAccessor) slot).setX(x);
-            ((SlotAccessor) slot).setY(y);
-        }
-    }
-
-    public boolean shouldShowScrollbar() {
-        return ReinforcedCoreMod.CONFIG.screenType == ReinforcedStorageScreenType.SCROLL
-                && this.inventory.size() > SCROLL_SCREEN_COLS * ReinforcedCoreMod.CONFIG.scrollScreen.rows;
-    }
-
-    @Override
-    public ItemStack quickMove(PlayerEntity player, int slot) {
-        ItemStack itemStack = ItemStack.EMPTY;
-        Slot slot2 = (Slot) this.slots.get(slot);
-        if (slot2 != null && slot2.hasStack()) {
-            ItemStack itemStack2 = slot2.getStack();
-            itemStack = itemStack2.copy();
-            if (slot < this.inventory.size()
-                    ? !this.insertItem(itemStack2, this.inventory.size(), this.slots.size(), true)
-                    : !this.insertItem(itemStack2, 0, this.inventory.size(), false)) {
-                return ItemStack.EMPTY;
-            }
-            if (itemStack2.isEmpty()) {
-                slot2.setStack(ItemStack.EMPTY);
-            } else {
-                slot2.markDirty();
-            }
-        }
-        return itemStack;
-    }
-
-    @Override
-    public void onClosed(PlayerEntity player) {
-        super.onClosed(player);
-        this.inventory.onClose(player);
-    }
-
-    public Inventory getInventory() {
-        return this.inventory;
-    }
-
-    public ReinforcingMaterial getMaterial() {
-        return this.material;
-    }
-
-    public boolean getIsDoubleBlock() {
-        return this.isDoubleBlock;
-    }
-
-    public boolean getIsShulkerBox() {
-        return this.isShulkerBox;
-    }
-
-    public int getColumns() {
-        return this.cols;
-    }
-
-    public int getRows() {
-        return this.rows;
-    }
+  public int getRows() {
+    return this.rows;
+  }
 }
